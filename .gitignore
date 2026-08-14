@@ -7,5 +7,4 @@ image.png
 .tempmediaStorage/
 data/*
 !data/seed-products.csv
-models/*
-!models/.keep
+!data/seed-products.json

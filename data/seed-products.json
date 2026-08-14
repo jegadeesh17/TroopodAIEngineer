@@ -1,0 +1,116 @@
+{
+  "products": [
+    {
+      "id": 1001,
+      "title": "Plant-Based All-Purpose Kitchen Cleaner Concentrate Spray Bottle",
+      "price": 349,
+      "compare_at_price": 499,
+      "inventory_quantity": 45,
+      "images": ["kitchen-cleaner.jpg"],
+      "metafields": {
+        "custom.rating_score": 4.9,
+        "custom.review_count": 1420,
+        "custom.badge_text": "Bestseller",
+        "custom.benefit_tag": "Cuts grease naturally"
+      }
+    },
+    {
+      "id": 1002,
+      "title": "Natural Dishwashing Liquid Detergent with Organic Lemon & Eucalyptus Extract",
+      "price": 299,
+      "compare_at_price": 399,
+      "inventory_quantity": 20,
+      "images": ["dishwashing-liquid.jpg"],
+      "metafields": {
+        "custom.rating_score": 4.8,
+        "custom.review_count": 980,
+        "custom.badge_text": "Customer Favorite",
+        "custom.benefit_tag": "Tough on grease, soft on hands"
+      }
+    },
+    {
+      "id": 1003,
+      "title": "Eco Multi-Surface Floor Cleaner Super Concentrate Formula",
+      "price": 399,
+      "compare_at_price": 549,
+      "inventory_quantity": 0,
+      "images": ["floor-cleaner.jpg"],
+      "metafields": {
+        "custom.rating_score": 4.7,
+        "custom.review_count": 650,
+        "custom.badge_text": "Sold Out Soon",
+        "custom.benefit_tag": "Streak-free natural shine"
+      }
+    },
+    {
+      "id": 1004,
+      "title": "Purelane Plant-Powered Glass & Mirror Cleaner Refill",
+      "price": 249,
+      "compare_at_price": 349,
+      "inventory_quantity": 50,
+      "images": [],
+      "metafields": {
+        "custom.rating_score": 4.6,
+        "custom.review_count": 410,
+        "custom.badge_text": "Refill Pack",
+        "custom.benefit_tag": "Zero residue reflection"
+      }
+    },
+    {
+      "id": 1005,
+      "title": "Purelane Ultra-Concentrated Plant-Based Liquid Laundry Detergent Ultra-Pure Botanical Formula with Essential Oils for Sensitive Skin & Baby Clothes (100 Wash Loads)",
+      "price": 599,
+      "compare_at_price": 799,
+      "inventory_quantity": 15,
+      "images": ["laundry-detergent.jpg"],
+      "metafields": {
+        "custom.rating_score": 4.9,
+        "custom.review_count": 2100,
+        "custom.badge_text": "Value Size",
+        "custom.benefit_tag": "100 Wash Loads"
+      }
+    },
+    {
+      "id": 1006,
+      "title": "Foaming Handwash Starter Kit with Reusable Glass Dispenser Bottle",
+      "price": 349,
+      "compare_at_price": 449,
+      "inventory_quantity": 30,
+      "images": ["handwash-kit.jpg"],
+      "metafields": {
+        "custom.rating_score": 4.9,
+        "custom.review_count": 1850,
+        "custom.badge_text": "Starter Pack",
+        "custom.benefit_tag": "Moisturizing aloe vera"
+      }
+    },
+    {
+      "id": 1007,
+      "title": "Natural Toilet Bowl Cleaner Gel with Tea Tree & Pine",
+      "price": 279,
+      "compare_at_price": 349,
+      "inventory_quantity": 18,
+      "images": ["toilet-cleaner.jpg"],
+      "metafields": {
+        "custom.rating_score": 4.7,
+        "custom.review_count": 520,
+        "custom.badge_text": "Eco-Friendly",
+        "custom.benefit_tag": "Deep stain remover"
+      }
+    },
+    {
+      "id": 1008,
+      "title": "Organic Microfiber Cleaning Cloth Pack (Set of 4)",
+      "price": 199,
+      "compare_at_price": 299,
+      "inventory_quantity": 80,
+      "images": ["cloth-pack.jpg"],
+      "metafields": {
+        "custom.rating_score": 4.8,
+        "custom.review_count": 340,
+        "custom.badge_text": "Accessory",
+        "custom.benefit_tag": "Lint-free absorbency"
+      }
+    }
+  ]
+}
