@@ -2,7 +2,10 @@ venv/
 __pycache__/
 *.pyc
 .env
+*.log
+image.png
+.tempmediaStorage/
 data/*
-!data/.keep
+!data/seed-products.csv
 models/*
 !models/.keep
