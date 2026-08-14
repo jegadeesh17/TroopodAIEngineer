@@ -1,0 +1,163 @@
+{% comment %}
+  Section: purelane-combos.liquid
+  Horizontal swipeable combo rail with merchant customizable bundle cards.
+{% endcomment %}
+
+<section class="combos-section glass wrap" id="combos" data-scene="3">
+  <div class="section-header rv rv-d1">
+    {% if section.settings.kicker != blank %}
+      <span class="kicker">{{ section.settings.kicker }}</span>
+    {% endif %}
+    {% if section.settings.section_heading != blank %}
+      <h2 class="d2">{{ section.settings.section_heading }}</h2>
+    {% endif %}
+    {% if section.settings.lede != blank %}
+      <p class="lede">{{ section.settings.lede }}</p>
+    {% endif %}
+  </div>
+
+  <div class="combos-rail">
+    {% for block in section.blocks %}
+      {% render 'purelane-combo-card', block: block %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Combos",
+  "tag": "section",
+  "class": "combos-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Pre-built to save you money"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Best selling combos"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Subheadline Copy",
+      "default": "Curated bundles designed for complete home cleaning with maximum savings."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "combo_card",
+      "name": "Combo Card",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Combo Name",
+          "default": "Kitchen Essentials"
+        },
+        {
+          "type": "text",
+          "id": "flag_text",
+          "label": "Flag Badge Text",
+          "default": "Most Popular"
+        },
+        {
+          "type": "text",
+          "id": "product_count",
+          "label": "Product Count Label",
+          "default": "3 Products"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Bundle Price",
+          "default": "₹599"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Compare Price",
+          "default": "₹898"
+        },
+        {
+          "type": "text",
+          "id": "savings_text",
+          "label": "Savings Badge",
+          "default": "Save ₹299"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product 3"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1",
+          "label": "Benefit Tag 1",
+          "default": "Grease Cutting"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2",
+          "label": "Benefit Tag 2",
+          "default": "Streak-Free Shine"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3",
+          "label": "Benefit Tag 3",
+          "default": "Skin Safe Formula"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_featured",
+          "label": "Highlight Card (Featured)",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Combos",
+      "blocks": [
+        {
+          "type": "combo_card",
+          "settings": {
+            "title": "Kitchen Essentials",
+            "flag_text": "Top Rated",
+            "price": "₹599",
+            "compare_price": "₹898",
+            "savings_text": "Save ₹299"
+          }
+        },
+        {
+          "type": "combo_card",
+          "settings": {
+            "title": "Whole Home Clean",
+            "flag_text": "Best Value",
+            "price": "₹899",
+            "compare_price": "₹1299",
+            "savings_text": "Save ₹400"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
