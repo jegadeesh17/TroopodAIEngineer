@@ -1,0 +1,268 @@
+{
+  "sections": {
+    "purelane_hero": {
+      "type": "purelane-hero",
+      "blocks": {
+        "hero_slide_1": {
+          "type": "stage_slide",
+          "settings": {
+            "label": "Single bottle",
+            "price": "₹249",
+            "compare_price": "₹349",
+            "savings_tag": "Save ₹100"
+          }
+        },
+        "hero_slide_2": {
+          "type": "stage_slide",
+          "settings": {
+            "label": "Duo pack",
+            "price": "₹449",
+            "compare_price": "₹698",
+            "savings_tag": "Save ₹249"
+          }
+        },
+        "hero_slide_3": {
+          "type": "stage_slide",
+          "settings": {
+            "label": "Trio bundle",
+            "price": "₹599",
+            "compare_price": "₹997",
+            "savings_tag": "Save ₹398"
+          }
+        }
+      },
+      "block_order": [
+        "hero_slide_1",
+        "hero_slide_2",
+        "hero_slide_3"
+      ],
+      "settings": {
+        "headline": "Clean",
+        "headline_accent": "Lasts",
+        "subtext": "Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it.",
+        "cta_primary_text": "Shop now",
+        "cta_primary_url": "#shop",
+        "cta_secondary_text": "How it works",
+        "cta_secondary_url": "#combos",
+        "badge_1_text": "Plant powered",
+        "badge_2_text": "Safe for kids & pets",
+        "badge_3_text": "Zero harsh chemicals"
+      }
+    },
+    "purelane_reviews": {
+      "type": "purelane-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review_card",
+          "settings": {
+            "stars": 5,
+            "heading": "The tap cleaner melted hard water marks",
+            "body": "We have very hard borewell water in Bangalore. Standard cleaners did nothing. This took two sprays and one wipe.",
+            "reviewer_name": "Ananya R.",
+            "verified": true,
+            "product_tag": "Tap & Limescale"
+          }
+        },
+        "review_2": {
+          "type": "review_card",
+          "settings": {
+            "stars": 5,
+            "heading": "No cough when spraying the kitchen hob",
+            "body": "Usually kitchen sprays make me sneeze and cough. Purelane smells like mild citrus and cuts grease just as fast.",
+            "reviewer_name": "Vikram M.",
+            "verified": true,
+            "product_tag": "Kitchen Cleaner"
+          }
+        },
+        "review_3": {
+          "type": "review_card",
+          "settings": {
+            "stars": 5,
+            "heading": "Copper pooja vessels shine like new",
+            "body": "Tried pitambari for years, hated the smell. This brass cleaner is gentle on hands and works in seconds.",
+            "reviewer_name": "Gayatri S.",
+            "verified": true,
+            "product_tag": "Copper & Brass"
+          }
+        },
+        "review_4": {
+          "type": "review_card",
+          "settings": {
+            "stars": 5,
+            "heading": "My washing machine stopped smelling",
+            "body": "One tablet on tub clean mode removed months of detergent buildup and musty smell. Essential buy.",
+            "reviewer_name": "Rohit K.",
+            "verified": true,
+            "product_tag": "Descaler"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4"
+      ],
+      "settings": {
+        "kicker": "That's what they said",
+        "aggregate_rating": "4.8",
+        "review_count_text": "from 8,000+ reviews",
+        "social_proof_text": "Loved by <b>12 lakh+</b> homes",
+        "marquee_speed": 30
+      }
+    },
+    "purelane_combos": {
+      "type": "purelane-combos",
+      "blocks": {
+        "combo_1": {
+          "type": "combo_card",
+          "settings": {
+            "title": "Kitchen essentials",
+            "flag_text": "Most popular",
+            "savings_text": "You save ₹398",
+            "product_count": "3 products",
+            "description": "Includes: Foaming Kitchen Cleaner, Dishwash Gel & Tap Cleaner. Everything for a sparkling kitchen, no need to pick separately.",
+            "price": "₹499",
+            "compare_price": "₹897",
+            "benefit_1": "Cuts grease instantly",
+            "benefit_2": "Squeaky clean dishes",
+            "benefit_3": "Melts hard water stains",
+            "is_featured": false
+          }
+        },
+        "combo_2": {
+          "type": "combo_card",
+          "settings": {
+            "title": "Laundry care bundle",
+            "flag_text": "",
+            "savings_text": "You save ₹448",
+            "product_count": "3 products",
+            "description": "Includes: Laundry Detergent, Fabric Conditioner & Machine Cleaner Powder. Softer, fresher wash, all in one box.",
+            "price": "₹499",
+            "compare_price": "₹947",
+            "benefit_1": "Removes tough stains",
+            "benefit_2": "Softens every wash",
+            "benefit_3": "Deep-cleans machine",
+            "is_featured": false
+          }
+        },
+        "combo_3": {
+          "type": "combo_card",
+          "settings": {
+            "title": "Complete home bundle",
+            "flag_text": "Best value",
+            "savings_text": "Biggest saving",
+            "product_count": "5 products",
+            "description": "Includes: Kitchen Cleaner, Laundry Detergent, Floor Cleaner, Toilet Cleaner & Handwash. Our biggest saving box.",
+            "price": "₹799",
+            "compare_price": "₹1,495",
+            "benefit_1": "Cuts grease instantly",
+            "benefit_2": "Kills 99.9% germs",
+            "benefit_3": "Gentle hydration",
+            "is_featured": true
+          }
+        },
+        "combo_4": {
+          "type": "combo_card",
+          "settings": {
+            "title": "Bathroom deep clean",
+            "flag_text": "",
+            "savings_text": "You save ₹398",
+            "product_count": "3 products",
+            "description": "Includes: Toilet Cleaner, Tap Cleaner & Magic Eraser. A complete bathroom refresh in one box.",
+            "price": "₹499",
+            "compare_price": "₹897",
+            "benefit_1": "Kills 99.9% germs",
+            "benefit_2": "Melts hard water stains",
+            "benefit_3": "Scrubs away soap scum",
+            "is_featured": false
+          }
+        }
+      },
+      "block_order": [
+        "combo_1",
+        "combo_2",
+        "combo_3",
+        "combo_4"
+      ],
+      "settings": {
+        "kicker": "Pre-built to save you money",
+        "section_heading": "Best selling combos",
+        "subtext": "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own."
+      }
+    },
+    "purelane_bundles": {
+      "type": "purelane-bundles",
+      "blocks": {
+        "tier_1": {
+          "type": "bundle_tier",
+          "settings": {
+            "tag": "Starter",
+            "price": "₹349",
+            "compare_price": "₹598",
+            "per_product_note": "Flat ₹174 per product",
+            "feature_1": "Pick any two products",
+            "feature_2": "Free shipping across India",
+            "feature_3": "COD available",
+            "cta_text": "Build this box",
+            "is_featured": false
+          }
+        },
+        "tier_2": {
+          "type": "bundle_tier",
+          "settings": {
+            "tag": "Most popular",
+            "price": "₹499",
+            "compare_price": "₹897",
+            "per_product_note": "Flat ₹166 per product",
+            "feature_1": "Pick any three products",
+            "feature_2": "Covers kitchen and laundry",
+            "feature_3": "Free shipping across India",
+            "cta_text": "Build this box",
+            "is_featured": true
+          }
+        },
+        "tier_3": {
+          "type": "bundle_tier",
+          "settings": {
+            "tag": "Whole home",
+            "price": "₹799",
+            "compare_price": "₹1,495",
+            "per_product_note": "Flat ₹160 per product",
+            "feature_1": "Pick any five products",
+            "feature_2": "Every room in one order",
+            "feature_3": "Free shipping across India",
+            "cta_text": "Build this box",
+            "is_featured": false
+          }
+        }
+      },
+      "block_order": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "settings": {
+        "kicker": "Build your bundle",
+        "section_heading": "One box. Every room.",
+        "lede": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way."
+      }
+    },
+    "purelane_shop_grid": {
+      "type": "purelane-shop-grid",
+      "settings": {
+        "kicker": "Bestsellers",
+        "section_heading": "Loved by 30,000 homes",
+        "collection": "all",
+        "products_to_show": 8
+      }
+    }
+  },
+  "order": [
+    "purelane_hero",
+    "purelane_reviews",
+    "purelane_combos",
+    "purelane_bundles",
+    "purelane_shop_grid"
+  ]
+}
