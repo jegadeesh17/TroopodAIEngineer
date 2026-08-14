@@ -1,0 +1,96 @@
+{% comment %}
+  Section: purelane-shop-grid.liquid
+  Dynamic product grid reading from merchant-selected Shopify collection.
+{% endcomment %}
+
+<section class="shop-grid-section glass wrap" id="shop" data-scene="2">
+  <div class="section-header rv rv-d1">
+    {% if section.settings.kicker != blank %}
+      <span class="kicker">{{ section.settings.kicker }}</span>
+    {% endif %}
+    {% if section.settings.section_heading != blank %}
+      <h2 class="d2">{{ section.settings.section_heading }}</h2>
+    {% endif %}
+  </div>
+
+  <div class="products-grid">
+    {% assign selected_collection = collections[section.settings.collection] %}
+    {% assign products_limit = section.settings.products_to_show | default: 8 %}
+
+    {% if selected_collection != blank and selected_collection.products.size > 0 %}
+      {% for product in selected_collection.products limit: products_limit %}
+        {% assign delay_mod = forloop.index | modulo: 5 | plus: 1 %}
+        {% assign delay_class = 'rv-d' | append: delay_mod %}
+        {% render 'purelane-product-card', product: product, delay_class: delay_class %}
+      {% endfor %}
+    {% else %}
+      {% comment %} On-boarding placeholder loop when no collection is selected in theme editor {% endcomment %}
+      {% for i in (1..products_limit) %}
+        {% assign delay_mod = forloop.index | modulo: 5 | plus: 1 %}
+        {% assign delay_class = 'rv-d' | append: delay_mod %}
+        <div class="product-card glass rv {{ delay_class }}">
+          <div class="card-media">
+            <div class="svg-placeholder">
+              <svg viewBox="0 0 100 100" width="100" height="100">
+                <rect width="100" height="100" fill="#4b3a8f" rx="16"/>
+                <circle cx="50" cy="50" r="25" fill="#f0a03c"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Example Purelane Product {{ i }}</h3>
+            <div class="card-price"><span class="current-price">₹349</span></div>
+            <button class="btn btn-primary btn-sm full-width" disabled>Add to Cart</button>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Shop Grid",
+  "tag": "section",
+  "class": "shop-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Bestsellers"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Loved by 30,000+ homes"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 8,
+      "label": "Number of products to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_add_to_cart",
+      "label": "Enable AJAX Add to Cart",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Shop Grid"
+    }
+  ]
+}
+{% endschema %}
