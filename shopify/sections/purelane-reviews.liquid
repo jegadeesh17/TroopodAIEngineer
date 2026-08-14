@@ -1,70 +1,52 @@
 {% comment %}
   Section: purelane-reviews.liquid
-  Auto-marquee customer review rail with aggregate ratings header.
+  Customer Reviews Marquee matching Purelane prototype exactly
 {% endcomment %}
 
-<section class="reviews-section glass wrap" id="reviews" data-scene="4">
-  <div class="reviews-header rv rv-d1">
-    <div class="aggregate-box">
-      <span class="score d2">{{ section.settings.aggregate_rating }}</span>
-      <div class="stars-col">
-        <span class="stars">★★★★★</span>
-        <span class="count-text">{{ section.settings.review_count_text }}</span>
-      </div>
+<section class="sec revband" id="reviews" data-scene="1">
+  <div class="wrap">
+    <div class="revhead rv">
+      <span class="kicker">{{ section.settings.kicker | default: "That's what they said" }}</span>
+      <span class="agg">
+        <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <b>{{ section.settings.aggregate_rating | default: "4.8" }}</b>
+        {{ section.settings.review_count_text | default: "from 8,000+ reviews" }}
+      </span>
+      {% if section.settings.social_proof_text != blank %}
+        <span class="agg">{{ section.settings.social_proof_text }}</span>
+      {% endif %}
     </div>
-    {% if section.settings.social_proof_text != blank %}
-      <p class="social-proof">{{ section.settings.social_proof_text }}</p>
-    {% endif %}
   </div>
 
-  <div class="reviews-marquee rv rv-d2" aria-label="Customer reviews" style="--duration: {{ section.settings.marquee_speed | default: 30 }}s;">
-    <div class="revtrack">
-      {% for block in section.blocks %}
-        <div class="review-card glass-2" {{ block.shopify_attributes }}>
-          <div class="rev-stars">
-            {% assign star_num = block.settings.stars | default: 5 %}
-            {% for i in (1..star_num) %}★{% endfor %}
-          </div>
-          {% if block.settings.heading != blank %}
-            <h4 class="rev-heading">{{ block.settings.heading }}</h4>
-          {% endif %}
-          <p class="rev-body">{{ block.settings.body }}</p>
-          <div class="rev-author">
-            <span class="author-name">{{ block.settings.reviewer_name }}</span>
-            {% if block.settings.verified %}
-              <span class="verified-badge">✓ Verified Buyer</span>
+  <div class="revrail rv" aria-label="Customer reviews">
+    <div class="revtrack" style="animation-duration: {{ section.settings.marquee_speed | default: 30 }}s;">
+      {%- capture cards_markup -%}
+        {% for block in section.blocks %}
+          <article class="glass-2 rcard" {{ block.shopify_attributes }}>
+            <div class="st">
+              {% assign star_num = block.settings.stars | default: 5 %}
+              {% for i in (1..star_num) %}&#9733;{% endfor %}
+            </div>
+            {% if block.settings.heading != blank %}
+              <h5>{{ block.settings.heading }}</h5>
             {% endif %}
-            {% if block.settings.product_tag != blank %}
-              <span class="prod-tag">{{ block.settings.product_tag }}</span>
-            {% endif %}
-          </div>
-        </div>
-      {% endfor %}
+            <p>{{ block.settings.body }}</p>
+            <div class="who">
+              {% if block.settings.verified %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+              {% endif %}
+              <b>{{ block.settings.reviewer_name }}</b>
+              {% if block.settings.product_tag != blank %}
+                <span>{{ block.settings.product_tag }}</span>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      {%- endcapture -%}
+      {{ cards_markup }}
     </div>
-    
-    {% comment %} Duplicate track for seamless infinite marquee loop {% endcomment %}
-    <div class="revtrack" aria-hidden="true">
-      {% for block in section.blocks %}
-        <div class="review-card glass-2">
-          <div class="rev-stars">
-            {% assign star_num = block.settings.stars | default: 5 %}
-            {% for i in (1..star_num) %}★{% endfor %}
-          </div>
-          {% if block.settings.heading != blank %}
-            <h4 class="rev-heading">{{ block.settings.heading }}</h4>
-          {% endif %}
-          <p class="rev-body">{{ block.settings.body }}</p>
-          <div class="rev-author">
-            <span class="author-name">{{ block.settings.reviewer_name }}</span>
-            {% if block.settings.verified %}
-              <span class="verified-badge">✓ Verified Buyer</span>
-            {% endif %}
-            {% if block.settings.product_tag != blank %}
-              <span class="prod-tag">{{ block.settings.product_tag }}</span>
-            {% endif %}
-          </div>
-        </div>
-      {% endfor %}
+    <div class="revtrack" aria-hidden="true" style="animation-duration: {{ section.settings.marquee_speed | default: 30 }}s;">
+      {{ cards_markup }}
     </div>
   </div>
 </section>
@@ -73,25 +55,31 @@
 {
   "name": "Purelane Reviews",
   "tag": "section",
-  "class": "reviews-section",
+  "class": "purelane-reviews-wrapper",
   "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker Text",
+      "default": "That's what they said"
+    },
     {
       "type": "text",
       "id": "aggregate_rating",
       "label": "Aggregate Score",
-      "default": "4.9"
+      "default": "4.8"
     },
     {
       "type": "text",
       "id": "review_count_text",
-      "label": "Review Count Subtext",
-      "default": "8,000+ Verified 5-Star Reviews"
+      "label": "Review Count Text",
+      "default": "from 8,000+ reviews"
     },
     {
       "type": "text",
       "id": "social_proof_text",
-      "label": "Social Proof Tagline",
-      "default": "Loved by 12 lakh+ Indian homes"
+      "label": "Social Proof Text",
+      "default": "Loved by 12 lakh+ homes"
     },
     {
       "type": "range",
@@ -101,14 +89,13 @@
       "step": 5,
       "default": 30,
       "unit": "s",
-      "label": "Marquee Speed Duration"
+      "label": "Marquee Speed"
     }
   ],
   "blocks": [
     {
       "type": "review_card",
       "name": "Review Card",
-      "limit": 20,
       "settings": [
         {
           "type": "range",
@@ -122,32 +109,32 @@
         {
           "type": "text",
           "id": "heading",
-          "label": "Review Title",
-          "default": "Cleaned grease like magic!"
+          "label": "Headline",
+          "default": "The tap cleaner melted hard water marks"
         },
         {
           "type": "textarea",
           "id": "body",
-          "label": "Review Body Copy",
-          "default": "Switched to Purelane kitchen cleaner and my stove counters have never been cleaner. Smells natural and zero harsh fumes."
+          "label": "Review Body",
+          "default": "We have very hard borewell water in Bangalore. Standard cleaners did nothing. This took two sprays and one wipe."
         },
         {
           "type": "text",
           "id": "reviewer_name",
           "label": "Reviewer Name",
-          "default": "Priya Sharma"
+          "default": "Ananya R."
         },
         {
           "type": "checkbox",
           "id": "verified",
-          "label": "Verified Buyer Badge",
+          "label": "Verified Buyer",
           "default": true
         },
         {
           "type": "text",
           "id": "product_tag",
-          "label": "Product Tagline",
-          "default": "· Kitchen Cleaner Concentrate"
+          "label": "Product Tag",
+          "default": "Tap & Limescale"
         }
       ]
     }
@@ -159,17 +146,37 @@
         {
           "type": "review_card",
           "settings": {
+            "heading": "The tap cleaner melted hard water marks",
+            "body": "We have very hard borewell water in Bangalore. Standard cleaners did nothing. This took two sprays and one wipe.",
             "reviewer_name": "Ananya R.",
-            "heading": "Obsessed with the smell!",
-            "body": "The lemon eucalyptus dish wash cuts oil instantly and my hands don't dry out."
+            "product_tag": "Tap & Limescale"
           }
         },
         {
           "type": "review_card",
           "settings": {
+            "heading": "No cough when spraying the kitchen hob",
+            "body": "Usually kitchen sprays make me sneeze and cough. Purelane smells like mild citrus and cuts grease just as fast.",
             "reviewer_name": "Vikram M.",
-            "heading": "Replaced all plastic bottles",
-            "body": "The concentrate glass bottle design is fantastic. High quality refills!"
+            "product_tag": "Kitchen Cleaner"
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "heading": "Copper pooja vessels shine like new",
+            "body": "Tried pitambari for years, hated the smell. This brass cleaner is gentle on hands and works in seconds.",
+            "reviewer_name": "Gayatri S.",
+            "product_tag": "Copper & Brass"
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "heading": "My washing machine stopped smelling",
+            "body": "One tablet on tub clean mode removed months of detergent buildup and musty smell. Essential buy.",
+            "reviewer_name": "Rohit K.",
+            "product_tag": "Descaler"
           }
         }
       ]

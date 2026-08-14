@@ -1,118 +1,157 @@
 {% comment %}
   Section: purelane-hero.liquid
-  Purelane Hero Section with stage switcher, badge rail, dynamic CTAs, and merchant settings.
+  Purelane Hero Section with 3-step interactive bottle stage, botanical badge rail, and responsive typography.
 {% endcomment %}
 
-<section class="hero glass" data-scene="1" id="hero-{{ section.id }}">
-  <div class="hero-grid wrap">
-    <div class="hero-copy rv rv-d1">
-      <div class="rule">
-        <span class="rule-line"></span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rule-icon">
-          <path d="M12 2L15 9L22 9L16.5 13.5L18.5 21L12 16.5L5.5 21L7.5 13.5L2 9L9 9L12 2Z"/>
-        </svg>
-        <span class="rule-line"></span>
-      </div>
+<section class="hero" id="hero-{{ section.id }}" data-scene="1">
+  <div class="hero-grid">
 
-      <h1 class="d1">
-        {{ section.settings.headline }}
-        <span class="lime">{{ section.settings.headline_accent }}</span>
+    <!-- DESKTOP BADGE RAIL -->
+    <div class="badges glass-2" aria-label="Product promises">
+      {% if section.settings.badge_1_text != blank %}
+        <div class="badge">
+          <span class="bi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
+              <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
+            </svg>
+          </span>
+          <span>{{ section.settings.badge_1_text | replace: ' ', '<br>' }}</span>
+        </div>
+      {% endif %}
+      {% if section.settings.badge_2_text != blank %}
+        <div class="badge">
+          <span class="bi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/>
+              <path d="m9 12 2.2 2.2L15.4 10"/>
+            </svg>
+          </span>
+          <span>{{ section.settings.badge_2_text | replace: ' ', '<br>' }}</span>
+        </div>
+      {% endif %}
+      {% if section.settings.badge_3_text != blank %}
+        <div class="badge">
+          <span class="bi">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.4"/>
+              <path d="M6.4 17.6 17.6 6.4"/>
+            </svg>
+          </span>
+          <span>{{ section.settings.badge_3_text | replace: ' ', '<br>' }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- HERO COPY -->
+    <div class="hero-copy">
+      <h1 class="d1 rv in">
+        {{ section.settings.headline | default: "Clean" }}<br>
+        That<br>
+        <span class="lime">{{ section.settings.headline_accent | default: "Lasts" }}</span>
       </h1>
 
-      <p class="lede">{{ section.settings.subtext }}</p>
+      <div class="rule rv rv-d1">
+        <i></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
+          <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
+        </svg>
+        <i></i>
+      </div>
 
-      <div class="hero-cta">
+      <p class="lede rv rv-d2">
+        {{ section.settings.subtext | default: "Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it." }}
+      </p>
+
+      <div class="hero-cta rv rv-d3">
         {% if section.settings.cta_primary_text != blank %}
-          <a href="{{ section.settings.cta_primary_url | default: '#shop' }}" class="btn btn-primary">
+          <a class="btn btn-primary" href="{{ section.settings.cta_primary_url | default: '#shop' }}">
             {{ section.settings.cta_primary_text }}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h13m-5-6 6 6-6 6"/>
+            </svg>
           </a>
         {% endif %}
         {% if section.settings.cta_secondary_text != blank %}
-          <a href="{{ section.settings.cta_secondary_url | default: '#combos' }}" class="btn btn-ghost">
+          <a class="btn btn-ghost" href="{{ section.settings.cta_secondary_url | default: '#combos' }}">
             {{ section.settings.cta_secondary_text }}
           </a>
         {% endif %}
-      <div class="badgestrip rv rv-d3">
+      </div>
+
+      <!-- MOBILE BADGE STRIP -->
+      <div class="badgestrip rv rv-d4">
         {% if section.settings.badge_1_text != blank %}
-          <div>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15 9L22 9L16.5 13.5L18.5 21L12 16.5L5.5 21L7.5 13.5L2 9L9 9L12 2Z"/></svg>
-            <span>{{ section.settings.badge_1_text }}</span>
+          <div class="glass-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
+              <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
+            </svg>
+            {{ section.settings.badge_1_text }}
           </div>
         {% endif %}
         {% if section.settings.badge_2_text != blank %}
-          <div>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>{{ section.settings.badge_2_text }}</span>
+          <div class="glass-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/>
+              <path d="m9 12 2.2 2.2L15.4 10"/>
+            </svg>
+            {{ section.settings.badge_2_text }}
           </div>
         {% endif %}
         {% if section.settings.badge_3_text != blank %}
-          <div>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-            <span>{{ section.settings.badge_3_text }}</span>
+          <div class="glass-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.4"/>
+              <path d="M6.4 17.6 17.6 6.4"/>
+            </svg>
+            {{ section.settings.badge_3_text }}
           </div>
         {% endif %}
       </div>
     </div>
 
-    <div class="hero-stage rv rv-d2">
-      <div class="stage-slides">
+    <!-- HERO PRODUCT STAGE -->
+    <div class="hero-prod" id="heroProd-{{ section.id }}">
+      <div class="hstage" id="hstage-{{ section.id }}">
         {% for block in section.blocks %}
-          <div class="hslide {% if forloop.first %}active{% endif %}" data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-            {% if block.settings.product != blank and block.settings.product.featured_image %}
-              <img src="{{ block.settings.product.featured_image | image_url: width: 800 }}" alt="{{ block.settings.label | escape }}" loading="eager" width="400" height="400">
+          {% assign sidx = forloop.index %}
+          <div class="hslide hs{{ sidx }} {% if forloop.first %}on{% endif %}" data-n="{{ sidx }}" {{ block.shopify_attributes }}>
+            {% if sidx == 1 %}
+              <span class="hp p-kbtl a d1" role="img" aria-label="{{ block.settings.label | escape }}"></span>
+            {% elsif sidx == 2 %}
+              <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner"></span>
+              <span class="hp p-kbtl b d2" role="img" aria-label="Kitchen cleaner"></span>
             {% else %}
-              <div class="stage-fallback">
-                <svg viewBox="0 0 100 120" width="200" height="240" fill="none">
-                  <path d="M30 20 H70 V40 H30 Z" fill="#6b55b8"/>
-                  <path d="M20 40 H80 V110 H20 Z" fill="#4b3a8f"/>
-                  <circle cx="50" cy="75" r="15" fill="#f0a03c"/>
-                </svg>
-              </div>
+              <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner"></span>
+              <span class="hp p-mbtl b d2" role="img" aria-label="Copper & brass cleaner"></span>
+              <span class="hp p-kbtl c d3" role="img" aria-label="Kitchen cleaner"></span>
             {% endif %}
 
-            <div class="slide-meta glass-2">
-              <span class="slide-label d4">{{ block.settings.label }}</span>
-              <div class="slide-prices">
-                <span class="slide-price d3">{{ block.settings.price }}</span>
+            <div class="glass-2 ptag">
+              <span class="lbl">{{ block.settings.label }}</span>
+              <div class="val">
+                <strong>{{ block.settings.price }}</strong>
                 {% if block.settings.compare_price != blank %}
-                  <span class="slide-compare">{{ block.settings.compare_price }}</span>
-                {% endif %}
-                {% if block.settings.savings_tag != blank %}
-                  <span class="slide-savings">{{ block.settings.savings_tag }}</span>
+                  <s>{{ block.settings.compare_price }}</s>
                 {% endif %}
               </div>
+              {% if block.settings.savings_tag != blank %}
+                <span class="cut">{{ block.settings.savings_tag }}</span>
+              {% endif %}
             </div>
           </div>
         {% endfor %}
       </div>
 
-      <div id="hdots" class="stage-dots">
+      <div class="hdots" id="hdots-{{ section.id }}">
         {% for block in section.blocks %}
-          <button type="button" aria-label="Go to slide {{ forloop.index }}" class="{% if forloop.first %}active{% endif %}"></button>
+          <button type="button" class="{% if forloop.first %}on{% endif %}" aria-label="Slide {{ forloop.index }}"></button>
         {% endfor %}
       </div>
     </div>
-  </div>
 
-  <div class="badges">
-    {% if section.settings.badge_1_text != blank %}
-      <div class="badge">
-        <div class="bi">🌱</div>
-        <span>{{ section.settings.badge_1_text }}</span>
-      </div>
-    {% endif %}
-    {% if section.settings.badge_2_text != blank %}
-      <div class="badge">
-        <div class="bi">🛡️</div>
-        <span>{{ section.settings.badge_2_text }}</span>
-      </div>
-    {% endif %}
-    {% if section.settings.badge_3_text != blank %}
-      <div class="badge">
-        <div class="bi">🚫</div>
-        <span>{{ section.settings.badge_3_text }}</span>
-      </div>
-    {% endif %}
   </div>
 </section>
 
@@ -120,13 +159,13 @@
 {
   "name": "Purelane Hero",
   "tag": "section",
-  "class": "hero-section",
+  "class": "purelane-hero-wrapper",
   "settings": [
     {
       "type": "text",
       "id": "headline",
-      "label": "Headline Main",
-      "default": "Clean That"
+      "label": "Headline First Line",
+      "default": "Clean"
     },
     {
       "type": "text",
@@ -138,13 +177,13 @@
       "type": "textarea",
       "id": "subtext",
       "label": "Subtext",
-      "default": "Plant-based homecare concentrates designed to cut plastic waste and clean homes naturally across India."
+      "default": "Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it."
     },
     {
       "type": "text",
       "id": "cta_primary_text",
       "label": "Primary Button Text",
-      "default": "Shop Best Sellers"
+      "default": "Shop now"
     },
     {
       "type": "url",
@@ -155,7 +194,7 @@
       "type": "text",
       "id": "cta_secondary_text",
       "label": "Secondary Button Text",
-      "default": "Explore Combos"
+      "default": "How it works"
     },
     {
       "type": "url",
@@ -166,55 +205,50 @@
       "type": "text",
       "id": "badge_1_text",
       "label": "Badge 1 Text",
-      "default": "100% Plant Based"
+      "default": "Plant powered"
     },
     {
       "type": "text",
       "id": "badge_2_text",
       "label": "Badge 2 Text",
-      "default": "Non-Toxic Shield"
+      "default": "Safe for kids & pets"
     },
     {
       "type": "text",
       "id": "badge_3_text",
       "label": "Badge 3 Text",
-      "default": "Zero Harsh Chemicals"
+      "default": "Zero harsh chemicals"
     }
   ],
   "blocks": [
     {
       "type": "hero_slide",
-      "name": "Hero Product Slide",
+      "name": "Stage Slide",
       "limit": 3,
       "settings": [
         {
-          "type": "product",
-          "id": "product",
-          "label": "Product"
-        },
-        {
           "type": "text",
           "id": "label",
-          "label": "Slide Label",
-          "default": "Any 2 Products"
+          "label": "Label",
+          "default": "Single bottle"
         },
         {
           "type": "text",
           "id": "price",
-          "label": "Price Display",
-          "default": "₹349"
+          "label": "Display Price",
+          "default": "₹249"
         },
         {
           "type": "text",
           "id": "compare_price",
           "label": "Compare Price",
-          "default": "₹598"
+          "default": "₹349"
         },
         {
           "type": "text",
           "id": "savings_tag",
           "label": "Savings Tag",
-          "default": "Save ₹249"
+          "default": "Save ₹100"
         }
       ]
     }
@@ -225,15 +259,30 @@
       "blocks": [
         {
           "type": "hero_slide",
-          "settings": { "label": "Single Cleaner", "price": "₹249" }
+          "settings": {
+            "label": "Single bottle",
+            "price": "₹249",
+            "compare_price": "₹349",
+            "savings_tag": "Save ₹100"
+          }
         },
         {
           "type": "hero_slide",
-          "settings": { "label": "Duo Pack", "price": "₹349" }
+          "settings": {
+            "label": "Duo pack",
+            "price": "₹449",
+            "compare_price": "₹698",
+            "savings_tag": "Save ₹249"
+          }
         },
         {
           "type": "hero_slide",
-          "settings": { "label": "Full Home Trio", "price": "₹599" }
+          "settings": {
+            "label": "Trio bundle",
+            "price": "₹599",
+            "compare_price": "₹997",
+            "savings_tag": "Save ₹398"
+          }
         }
       ]
     }

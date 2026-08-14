@@ -1,75 +1,114 @@
 {% comment %}
   Snippet: purelane-product-card.liquid
-  Accepts:
-  - product: Shopify product object
-  - badge_text: String override for pill badge
-  - delay_class: Stagger animation delay class (e.g. 'rv-d1')
+  Product Card matching Purelane prototype exactly
 {% endcomment %}
 
 {%- assign rating_score = product.metafields.custom.rating_score | default: 4.8 -%}
-{%- assign review_count = product.metafields.custom.review_count | default: 120 -%}
+{%- assign review_count = product.metafields.custom.review_count | default: 237 -%}
 {%- assign pill_badge = badge_text | default: product.metafields.custom.badge_text -%}
 
-<div class="product-card glass rv {{ delay_class }}">
-  {% if pill_badge != blank %}
-    <span class="card-badge">{{ pill_badge }}</span>
-  {% endif %}
+{%- if pill_badge == blank -%}
+  {%- if product.tags contains 'Bestseller' or product.tags contains 'bestseller' -%}
+    {%- assign pill_badge = 'Best seller' -%}
+  {%- elsif product.tags contains 'Top rated' or product.tags contains 'Customer Favorite' -%}
+    {%- assign pill_badge = 'Top rated' -%}
+  {%- elsif product.available == false -%}
+    {%- assign pill_badge = 'Sold Out' -%}
+  {%- else -%}
+    {%- assign pill_badge = 'Best seller' -%}
+  {%- endif -%}
+{%- endif -%}
 
-  <div class="card-media">
+<article class="glass card rv {% if delay_index %}rv-d{{ delay_index }}{% endif %}">
+  <div class="shot">
+    {% if pill_badge != blank %}
+      <span class="pill">{{ pill_badge }}</span>
+    {% endif %}
+
     {% if product.featured_image %}
       <img
-        src="{{ product.featured_image | image_url: width: 600 }}"
+        src="{{ product.featured_image | image_url: width: 400 }}"
         alt="{{ product.featured_image.alt | default: product.title | escape }}"
         loading="lazy"
-        width="300"
-        height="300"
+        width="200"
+        height="200"
+        style="height: 122px; width: auto; object-fit: contain;"
       >
     {% else %}
-      <div class="svg-placeholder" aria-label="No image available">
-        <svg viewBox="0 0 100 100" width="100" height="100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100" height="100" rx="16" fill="url(#placeholder-grad)"/>
-          <path d="M50 25C40 25 35 35 35 50C35 65 40 75 50 75C60 75 65 65 65 50C65 35 60 25 50 25Z" stroke="#f0a03c" stroke-width="3"/>
-          <defs>
-            <linearGradient id="placeholder-grad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#4b3a8f"/>
-              <stop offset="1" stop-color="#17102b"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+      {%- comment -%} Missing Image Fallback: Branded Purelane SVG Bottle {%- endcomment -%}
+      <svg viewBox="0 0 130 200" xmlns="http://www.w3.org/2000/svg" style="height: 122px; width: auto;">
+        <defs>
+          <linearGradient id="gTAPb_{{ product.id }}" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#ffffff" stop-opacity=".10"/>
+            <stop offset=".18" stop-color="#ffffff" stop-opacity=".38"/>
+            <stop offset=".5" stop-color="#dff3e4" stop-opacity=".10"/>
+            <stop offset=".82" stop-color="#ffffff" stop-opacity=".22"/>
+            <stop offset="1" stop-color="#9fc7b4" stop-opacity=".32"/>
+          </linearGradient>
+          <linearGradient id="gTAPl_{{ product.id }}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#04756e"/>
+            <stop offset=".55" stop-color="#4b3a8f"/>
+            <stop offset="1" stop-color="#013f3d"/>
+          </linearGradient>
+          <linearGradient id="gTAPc_{{ product.id }}" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#8fa89b"/>
+            <stop offset=".22" stop-color="#eef6ef"/>
+            <stop offset="1" stop-color="#7d938c"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="65" cy="190" rx="40" ry="7" fill="#01201c" opacity=".5"/>
+        <path d="M40 60V48c0-7 5-12 12-12h13c8 0 13 6 13 13v11Z" fill="url(#gTAPc_{{ product.id }})"/>
+        <path d="M65 37c11-1 19 3 25 10 3 4 2 9-2 10l-20 3Z" fill="#cfdcd2"/>
+        <path d="M14 44h27v9H19c-4 0-6-2-6-4s1-5 1-5Z" fill="#cfdcd2"/>
+        <path d="M44 52c-7 3-11 9-10 16 1 6 5 10 12 10v-6c-4 0-6-2-6-5s2-6 5-7Z" fill="#cfdcd2"/>
+        <rect x="38" y="56" width="42" height="7" rx="3" fill="#a8bdb2"/>
+        <rect x="41" y="62" width="36" height="16" rx="4" fill="url(#gTAPc_{{ product.id }})"/>
+        <path d="M28 96c0-11 6-18 15-24v-8h33v8c9 6 15 13 15 24v62c0 12-8 20-21 20H49c-13 0-21-8-21-20Z" fill="url(#gTAPb_{{ product.id }})" stroke="rgba(255,255,255,.4)" stroke-width="1.4"/>
+        <rect x="31" y="112" width="66" height="60" rx="6" fill="url(#gTAPl_{{ product.id }})"/>
+        <rect x="31" y="112" width="66" height="60" rx="6" fill="none" stroke="rgba(236,230,247,.26)" stroke-width="1"/>
+        <g transform="translate(58 120) scale(.5)" fill="none" stroke="#f0a03c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
+          <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
+        </g>
+        <text x="64" y="140" text-anchor="middle" font-family="Outfit, sans-serif" font-size="8.6" font-weight="800" letter-spacing=".7" fill="#faf7fd">PURELANE</text>
+        <line x1="42" y1="146" x2="86" y2="146" stroke="#f0a03c" stroke-width=".9" opacity=".85"/>
+        <text x="64" y="156" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.4" font-weight="700" letter-spacing="1.1" fill="#ece6f7">CLEANER</text>
+        <text x="64" y="164" text-anchor="middle" font-family="Inter, sans-serif" font-size="6.4" font-weight="700" letter-spacing="1.1" fill="#ece6f7">CONCENTRATE</text>
+        <text x="64" y="171" text-anchor="middle" font-family="Inter, sans-serif" font-size="4.8" font-weight="600" letter-spacing=".9" fill="rgba(236,230,247,.7)">500 ML</text>
+        <rect x="36" y="98" width="6" height="72" rx="3" fill="#ffffff" opacity=".3"/>
+        <rect x="86" y="102" width="4" height="64" rx="2" fill="#ffffff" opacity=".18"/>
+      </svg>
     {% endif %}
   </div>
 
-  <div class="card-content">
-    <div class="card-rating">
-      <span class="stars">★★★★★</span>
-      <span class="rating-text">{{ rating_score }} ({{ review_count }})</span>
-    </div>
+  <h4 class="line-clamp" title="{{ product.title | escape }}">{{ product.title }}</h4>
 
-    <h3 class="card-title line-clamp" title="{{ product.title | escape }}">
-      {{ product.title }}
-    </h3>
-
-    <div class="card-price">
-      <span class="current-price">{{ product.price | money }}</span>
-      {% if product.compare_at_price > product.price %}
-        <span class="compare-price">{{ product.compare_at_price | money }}</span>
-      {% endif %}
-    </div>
-
-    <form method="post" action="/cart/add" class="purelane-ajax-form">
-      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-      <input type="hidden" name="quantity" value="1">
-      
-      {% if product.available %}
-        <button type="submit" class="btn btn-primary btn-sm full-width">
-          Add to Cart
-        </button>
-      {% else %}
-        <button type="button" class="btn btn-ghost btn-sm full-width" disabled>
-          Sold out
-        </button>
-      {% endif %}
-    </form>
+  <div class="rate">
+    <b>★ {{ rating_score }}</b> · {{ review_count }} reviews
   </div>
-</div>
+
+  <div class="pr">
+    <strong>{{ product.price | money }}</strong>
+    {% if product.compare_at_price > product.price %}
+      <s>{{ product.compare_at_price | money }}</s>
+      {%- assign diff = product.compare_at_price | minus: product.price -%}
+      {%- assign pct = diff | times: 100.0 | divided_by: product.compare_at_price | round -%}
+      <em>{{ pct }}% off</em>
+    {% endif %}
+  </div>
+
+  <form method="post" action="/cart/add" class="purelane-ajax-form">
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    <input type="hidden" name="quantity" value="1">
+    
+    {% if product.available %}
+      <button type="submit" class="btn btn-ghost btn-sm">
+        Add to cart
+      </button>
+    {% else %}
+      <button type="button" class="btn btn-ghost btn-sm" disabled style="opacity:0.4;cursor:not-allowed;">
+        Sold out
+      </button>
+    {% endif %}
+  </form>
+</article>

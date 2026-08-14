@@ -1,50 +1,39 @@
 {% comment %}
   Section: purelane-shop-grid.liquid
-  Dynamic product grid reading from merchant-selected Shopify collection.
+  Dynamic product grid matching Purelane prototype exactly
 {% endcomment %}
 
-<section class="shop-grid-section glass wrap" id="shop" data-scene="2">
-  <div class="section-header rv rv-d1">
-    {% if section.settings.kicker != blank %}
-      <span class="kicker">{{ section.settings.kicker }}</span>
-    {% endif %}
-    {% if section.settings.section_heading != blank %}
-      <h2 class="d2">{{ section.settings.section_heading }}</h2>
-    {% endif %}
-  </div>
+<section class="sec" id="shop" data-scene="3">
+  <div class="wrap">
+    <div class="panel-head rv">
+      <span class="kicker">{{ section.settings.kicker | default: "Bestsellers" }}</span>
+      <h2 class="d2" style="margin-top:12px">{{ section.settings.section_heading | default: "Loved by 30,000 homes" }}</h2>
+      <div class="rule">
+        <i></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
+          <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
+        </svg>
+        <i></i>
+      </div>
+    </div>
 
-  <div class="products-grid">
-    {% assign selected_collection = collections[section.settings.collection] %}
-    {% assign products_limit = section.settings.products_to_show | default: 8 %}
+    <div class="shelf">
+      {%- assign selected_collection = section.settings.collection | default: collections.all -%}
+      {%- assign count_limit = section.settings.products_to_show | default: 8 -%}
 
-    {% if selected_collection != blank and selected_collection.products.size > 0 %}
-      {% for product in selected_collection.products limit: products_limit %}
-        {% assign delay_mod = forloop.index | modulo: 5 | plus: 1 %}
-        {% assign delay_class = 'rv-d' | append: delay_mod %}
-        {% render 'purelane-product-card', product: product, delay_class: delay_class %}
-      {% endfor %}
-    {% else %}
-      {% comment %} On-boarding placeholder loop when no collection is selected in theme editor {% endcomment %}
-      {% for i in (1..products_limit) %}
-        {% assign delay_mod = forloop.index | modulo: 5 | plus: 1 %}
-        {% assign delay_class = 'rv-d' | append: delay_mod %}
-        <div class="product-card glass rv {{ delay_class }}">
-          <div class="card-media">
-            <div class="svg-placeholder">
-              <svg viewBox="0 0 100 100" width="100" height="100">
-                <rect width="100" height="100" fill="#4b3a8f" rx="16"/>
-                <circle cx="50" cy="50" r="25" fill="#f0a03c"/>
-              </svg>
-            </div>
-          </div>
-          <div class="card-content">
-            <h3 class="card-title">Example Purelane Product {{ i }}</h3>
-            <div class="card-price"><span class="current-price">₹349</span></div>
-            <button class="btn btn-primary btn-sm full-width" disabled>Add to Cart</button>
-          </div>
-        </div>
-      {% endfor %}
-    {% endif %}
+      {%- if selected_collection != blank and selected_collection.products.size > 0 -%}
+        {%- for product in selected_collection.products limit: count_limit -%}
+          {%- assign d_idx = forloop.index | modulo: 4 -%}
+          {%- render 'purelane-product-card', product: product, delay_index: d_idx -%}
+        {%- endfor -%}
+      {%- elsif collections.all.products.size > 0 -%}
+        {%- for product in collections.all.products limit: count_limit -%}
+          {%- assign d_idx = forloop.index | modulo: 4 -%}
+          {%- render 'purelane-product-card', product: product, delay_index: d_idx -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
   </div>
 </section>
 
@@ -52,7 +41,7 @@
 {
   "name": "Purelane Shop Grid",
   "tag": "section",
-  "class": "shop-section",
+  "class": "purelane-shop-wrapper",
   "settings": [
     {
       "type": "text",
@@ -64,7 +53,7 @@
       "type": "text",
       "id": "section_heading",
       "label": "Section Heading",
-      "default": "Loved by 30,000+ homes"
+      "default": "Loved by 30,000 homes"
     },
     {
       "type": "collection",
@@ -75,16 +64,10 @@
       "type": "range",
       "id": "products_to_show",
       "min": 4,
-      "max": 12,
+      "max": 16,
       "step": 4,
       "default": 8,
       "label": "Number of products to show"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_add_to_cart",
-      "label": "Enable AJAX Add to Cart",
-      "default": true
     }
   ],
   "presets": [

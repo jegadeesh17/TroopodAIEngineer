@@ -1,6 +1,6 @@
 /* ==========================================================================
    Purelane Theme JS Modules
-   Theme-editor safe scripts with shopify:section:load re-initialization
+   Direct prototype behavior, scene depth response, stage switcher, and AJAX cart.
    ========================================================================== */
 
 (function () {
@@ -23,7 +23,7 @@
           }
         });
       },
-      { rootMargin: '0px 0px -12% 0px' }
+      { rootMargin: '0px 0px -10% 0px' }
     );
 
     reveals.forEach((el) => observer.observe(el));
@@ -34,15 +34,15 @@
     if (!hero) return;
 
     const slides = hero.querySelectorAll('.hslide');
-    const dots = hero.querySelectorAll('#hdots button');
+    const dots = hero.querySelectorAll('.hdots button');
     if (!slides.length || !dots.length) return;
 
     let currentIndex = 0;
     let timer = null;
 
     function showSlide(index) {
-      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+      slides.forEach((slide, i) => slide.classList.toggle('on', i === index));
+      dots.forEach((dot, i) => dot.classList.toggle('on', i === index));
       currentIndex = index;
     }
 
@@ -52,7 +52,7 @@
       timer = setInterval(() => {
         const next = (currentIndex + 1) % slides.length;
         showSlide(next);
-      }, 3800);
+      }, 4000);
     }
 
     function stopAutoRotate() {
@@ -71,19 +71,26 @@
     startAutoRotate();
   }
 
-  function initReviewMarquee() {
-    const marquee = document.querySelector('.reviews-marquee');
-    if (!marquee) return;
+  function initScenesScroll() {
+    const scenes = document.getElementById('scenes');
+    if (!scenes) return;
 
-    const track = marquee.querySelector('.revtrack');
-    if (!track) return;
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docH > 0 ? scrollY / docH : 0;
 
-    // Check if clone already exists to avoid duplicate cloning on section reload
-    if (marquee.querySelectorAll('.revtrack').length < 2) {
-      const clone = track.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      marquee.appendChild(clone);
-    }
+      let depth = '1';
+      if (progress > 0.65) {
+        depth = '4';
+      } else if (progress > 0.35) {
+        depth = '3';
+      } else if (progress > 0.15) {
+        depth = '2';
+      }
+
+      scenes.setAttribute('data-d', depth);
+    }, { passive: true });
   }
 
   function initAjaxCart() {
@@ -93,51 +100,96 @@
 
       e.preventDefault();
       const submitBtn = form.querySelector('[type="submit"]');
-      if (submitBtn) submitBtn.disabled = true;
-
-      const formData = new FormData(form);
-      const items = [];
-
-      // Check for multi-item form fields or single variant
-      if (form.dataset.items) {
-        try {
-          const parsed = JSON.parse(form.dataset.items);
-          items.push(...parsed);
-        } catch (err) {
-          console.error('Invalid bundle items payload', err);
-        }
-      } else {
-        const id = formData.get('id');
-        const quantity = parseInt(formData.get('quantity') || '1', 10);
-        if (id) items.push({ id: parseInt(id, 10), quantity });
+      const originalText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Adding...</span>';
       }
 
-      if (!items.length) {
-        if (submitBtn) submitBtn.disabled = false;
-        return;
+      const formData = new FormData(form);
+      const singleId = formData.get('id');
+      const singleQty = parseInt(formData.get('quantity') || '1', 10);
+
+      let payload = {};
+
+      if (singleId) {
+        payload = {
+          items: [
+            {
+              id: parseInt(singleId, 10),
+              quantity: singleQty
+            }
+          ]
+        };
+      } else {
+        const itemsMap = {};
+        for (const [key, value] of formData.entries()) {
+          const match = key.match(/^items\[(\d+)\]\[(id|quantity)\]$/);
+          if (match) {
+            const index = match[1];
+            const field = match[2];
+            if (!itemsMap[index]) itemsMap[index] = { quantity: 1 };
+            if (field === 'id') {
+              itemsMap[index].id = parseInt(value, 10);
+            } else if (field === 'quantity') {
+              itemsMap[index].quantity = parseInt(value, 10);
+            }
+          }
+        }
+        const itemsList = Object.values(itemsMap).filter((item) => item.id && !isNaN(item.id));
+        payload = { items: itemsList };
       }
 
       fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(payload)
       })
-        .then((res) => res.json())
-        .then((data) => {
-          document.dispatchEvent(new CustomEvent('cart:refresh', { detail: data }));
-          if (submitBtn) submitBtn.disabled = false;
-        })
-        .catch((err) => {
-          console.error('Cart add error:', err);
-          if (submitBtn) submitBtn.disabled = false;
-        });
+      .then((res) => {
+        if (!res.ok) throw new Error('Cart Add Network Response was not ok');
+        return res.json();
+      })
+      .then((data) => {
+        if (submitBtn) {
+          submitBtn.innerHTML = '<span>Added ✓</span>';
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+          }, 1800);
+        }
+
+        // Update Cart Count Badge
+        fetch('/cart.js')
+          .then((res) => res.json())
+          .then((cart) => {
+            const countEl = document.getElementById('purelane-cart-count');
+            if (countEl) countEl.textContent = cart.item_count;
+
+            document.dispatchEvent(
+              new CustomEvent('purelane:cart-updated', {
+                detail: { cart }
+              })
+            );
+          });
+      })
+      .catch((err) => {
+        console.error('Add to cart error:', err);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      });
     });
   }
 
   function initAll() {
     initReveal();
     initHeroStage();
-    initReviewMarquee();
+    initScenesScroll();
     initAjaxCart();
   }
 
@@ -147,8 +199,7 @@
     initAll();
   }
 
-  // Shopify Theme Editor Section Load Event Re-initializer
-  document.addEventListener('shopify:section:load', function (e) {
-    initAll();
-  });
+  // Support Shopify Theme Editor dynamic re-renders
+  document.addEventListener('shopify:section:load', initAll);
+  document.addEventListener('shopify:section:select', initAll);
 })();

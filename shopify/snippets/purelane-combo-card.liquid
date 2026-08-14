@@ -1,69 +1,97 @@
 {% comment %}
   Snippet: purelane-combo-card.liquid
-  Accepts:
-  - block: Schema block containing combo settings
+  Renders an individual combo card in the combos rail matching prototype
 {% endcomment %}
 
-<div class="combo-card glass-2 rv" data-block-id="{{ block.id }}">
-  {% if block.settings.flag_text != blank %}
-    <span class="card-flag">{{ block.settings.flag_text }}</span>
-  {% endif %}
+{%- assign b = block.settings -%}
+<article class="glass combo {% if b.is_featured %}hero-combo{% endif %}" id="combo-{{ block.id }}" {{ block.shopify_attributes }}>
+  <div class="tray">
+    {% if b.savings_text != blank %}
+      <span class="save">{{ b.savings_text }}</span>
+    {% endif %}
+    {% if b.flag_text != blank %}
+      <span class="flag">{{ b.flag_text }}</span>
+    {% endif %}
 
-  <div class="combo-header">
-    <h3 class="d3">{{ block.settings.title }}</h3>
-    <span class="product-count">{{ block.settings.product_count }}</span>
+    <div class="stack">
+      <span class="it">
+        {% if block.settings.product_1 != blank and block.settings.product_1.featured_image %}
+          <img src="{{ block.settings.product_1.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_1.title | escape }}" class="pimg" style="height:66px;object-fit:contain;" width="66" height="66">
+        {% else %}
+          <span class="pimg p-kitchen" role="img" aria-label="Kitchen cleaner"></span>
+        {% endif %}
+        <span>{{ b.benefit_1 | default: "Cuts grease instantly" }}</span>
+      </span>
+
+      <span class="plus" aria-hidden="true">+</span>
+
+      <span class="it">
+        {% if block.settings.product_2 != blank and block.settings.product_2.featured_image %}
+          <img src="{{ block.settings.product_2.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_2.title | escape }}" class="pimg" style="height:66px;object-fit:contain;" width="66" height="66">
+        {% else %}
+          <span class="pimg p-dish" role="img" aria-label="Dishwash gel"></span>
+        {% endif %}
+        <span>{{ b.benefit_2 | default: "Squeaky clean dishes" }}</span>
+      </span>
+
+      {% if b.benefit_3 != blank or block.settings.product_3 != blank %}
+        <span class="plus" aria-hidden="true">+</span>
+        <span class="it">
+          {% if block.settings.product_3 != blank and block.settings.product_3.featured_image %}
+            <img src="{{ block.settings.product_3.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_3.title | escape }}" class="pimg" style="height:66px;object-fit:contain;" width="66" height="66">
+          {% else %}
+            <span class="pimg p-tap" role="img" aria-label="Tap cleaner"></span>
+          {% endif %}
+          <span>{{ b.benefit_3 | default: "Melts hard water stains" }}</span>
+        </span>
+      {% endif %}
+    </div>
   </div>
 
-  <div class="combo-images">
-    {% if block.settings.product_1 != blank and block.settings.product_1.featured_image %}
-      <img src="{{ block.settings.product_1.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_1.title | escape }}" width="80" height="80">
-    {% endif %}
-    {% if block.settings.product_2 != blank %}
-      <span class="plus-sep">+</span>
-      {% if block.settings.product_2.featured_image %}
-        <img src="{{ block.settings.product_2.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_2.title | escape }}" width="80" height="80">
-      {% endif %}
-    {% endif %}
-    {% if block.settings.product_3 != blank %}
-      <span class="plus-sep">+</span>
-      {% if block.settings.product_3.featured_image %}
-        <img src="{{ block.settings.product_3.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_3.title | escape }}" width="80" height="80">
-      {% endif %}
-    {% endif %}
-  </div>
+  <div class="body">
+    <h3>{{ b.title }}</h3>
+    <div class="cnt">{{ b.product_count | default: "3 products" }}</div>
+    <p class="inc">{{ b.description }}</p>
 
-  <div class="combo-benefits">
-    {% if block.settings.benefit_1 != blank %}
-      <span class="benefit-tag">{{ block.settings.benefit_1 }}</span>
-    {% endif %}
-    {% if block.settings.benefit_2 != blank %}
-      <span class="benefit-tag">{{ block.settings.benefit_2 }}</span>
-    {% endif %}
-    {% if block.settings.benefit_3 != blank %}
-      <span class="benefit-tag">{{ block.settings.benefit_3 }}</span>
-    {% endif %}
-  </div>
-
-  <div class="combo-footer">
-    <div class="price-row">
-      <span class="price d3">{{ block.settings.price }}</span>
-      {% if block.settings.compare_price != blank %}
-        <span class="compare-price">{{ block.settings.compare_price }}</span>
+    <div class="prow">
+      <strong>{{ b.price }}</strong>
+      {% if b.compare_price != blank %}
+        <s>{{ b.compare_price }}</s>
       {% endif %}
-      {% if block.settings.savings_text != blank %}
-        <span class="savings-badge">{{ block.settings.savings_text }}</span>
+      {% if b.savings_text != blank %}
+        <em>{{ b.savings_text }}</em>
       {% endif %}
     </div>
 
-    {% assign items_json = '' %}
-    {% if block.settings.product_1 != blank %}
-      {% assign items_json = '{"id":' | append: block.settings.product_1.selected_or_first_available_variant.id | append: ',"quantity":1}' %}
-    {% endif %}
+    <div class="fine">Inclusive of all taxes &middot; COD available</div>
 
-    <form method="post" action="/cart/add" class="purelane-ajax-form" data-items="[{{ items_json }}]">
-      <button type="submit" class="btn {% if block.settings.is_featured %}btn-primary{% else %}btn-ghost{% endif %} btn-sm full-width">
-        Add Combo to Cart
-      </button>
-    </form>
+    {%- if block.settings.product_1 != blank and block.settings.product_1.available -%}
+      <form method="post" action="/cart/add" class="purelane-ajax-form">
+        <input type="hidden" name="items[0][id]" value="{{ block.settings.product_1.selected_or_first_available_variant.id }}">
+        <input type="hidden" name="items[0][quantity]" value="1">
+        {% if block.settings.product_2 != blank and block.settings.product_2.available %}
+          <input type="hidden" name="items[1][id]" value="{{ block.settings.product_2.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="items[1][quantity]" value="1">
+        {% endif %}
+        {% if block.settings.product_3 != blank and block.settings.product_3.available %}
+          <input type="hidden" name="items[2][id]" value="{{ block.settings.product_3.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="items[2][quantity]" value="1">
+        {% endif %}
+
+        <button type="submit" class="btn {% if b.is_featured %}btn-primary{% else %}btn-ghost{% endif %}">
+          Shop bundle
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h13m-5-6 6 6-6 6"/>
+          </svg>
+        </button>
+      </form>
+    {%- else -%}
+      <a href="#bundles" class="btn {% if b.is_featured %}btn-primary{% else %}btn-ghost{% endif %}">
+        Shop bundle
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h13m-5-6 6 6-6 6"/>
+        </svg>
+      </a>
+    {%- endif -%}
   </div>
-</div>
+</article>

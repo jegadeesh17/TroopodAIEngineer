@@ -1,66 +1,116 @@
 {% comment %}
   Section: purelane-bundles.liquid
-  3-tier bundle pricing cards with feature list and custom AJAX cart submission.
+  Build your bundle tiers matching Purelane prototype exactly
 {% endcomment %}
 
-<section class="bundles-section glass wrap" id="bundles" data-scene="4">
-  <div class="section-header rv rv-d1">
-    {% if section.settings.kicker != blank %}
-      <span class="kicker">{{ section.settings.kicker }}</span>
-    {% endif %}
-    {% if section.settings.section_heading != blank %}
-      <h2 class="d2">{{ section.settings.section_heading }}</h2>
-    {% endif %}
-    {% if section.settings.lede != blank %}
-      <p class="lede">{{ section.settings.lede }}</p>
-    {% endif %}
-  </div>
-
-  <div class="bundles-grid">
-    {% for block in section.blocks %}
-      <div class="bundle-card {% if block.settings.is_featured %}glass{% else %}glass-2{% endif %} rv rv-d{{ forloop.index }}" {{ block.shopify_attributes }}>
-        {% if block.settings.tag != blank %}
-          <span class="bundle-tag">{{ block.settings.tag }}</span>
-        {% endif %}
-
-        <div class="bundle-header">
-          <h3 class="d3">{{ block.settings.title }}</h3>
-          <span class="per-note">{{ block.settings.per_product_note }}</span>
-        </div>
-
-        <div class="bundle-price-row">
-          <span class="price d2">{{ block.settings.price }}</span>
-          {% if block.settings.compare_price != blank %}
-            <span class="compare-price">{{ block.settings.compare_price }}</span>
-          {% endif %}
-        </div>
-
-        <ul class="bundle-features">
-          {% if block.settings.feature_1 != blank %}
-            <li><span class="check">✓</span> {{ block.settings.feature_1 }}</li>
-          {% endif %}
-          {% if block.settings.feature_2 != blank %}
-            <li><span class="check">✓</span> {{ block.settings.feature_2 }}</li>
-          {% endif %}
-          {% if block.settings.feature_3 != blank %}
-            <li><span class="check">✓</span> {{ block.settings.feature_3 }}</li>
-          {% endif %}
-        </ul>
-
-        <div class="bundle-cta">
-          {% assign items_json = '' %}
-          {% if block.settings.product_1 != blank %}
-            {% assign items_json = '{"id":' | append: block.settings.product_1.selected_or_first_available_variant.id | append: ',"quantity":1}' %}
-          {% endif %}
-
-          <form method="post" action="/cart/add" class="purelane-ajax-form" data-items="[{{ items_json }}]">
-            <button type="submit" class="btn {% if block.settings.is_featured %}btn-primary{% else %}btn-ghost{% endif %} full-width">
-              {{ block.settings.cta_text | default: "Build Bundle" }}
-            </button>
-          </form>
-        </div>
+<section class="sec" id="bundles" data-scene="3">
+  <div class="wrap">
+    <div class="glass sec-pad rv" style="margin-bottom:16px">
+      <div class="panel-head" style="margin-bottom:0">
+        <span class="kicker">{{ section.settings.kicker | default: "Build your bundle" }}</span>
+        <h2 class="d2" style="margin-top:12px">{{ section.settings.section_heading | default: "One box. Every room." }}</h2>
+        <p class="lede" style="margin:0 auto">{{ section.settings.lede | default: "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way." }}</p>
       </div>
-    {% endfor %}
+    </div>
+
+    <div class="tiers">
+      {% for block in section.blocks %}
+        {% assign b = block.settings %}
+        <article class="glass tier {% if b.is_featured %}best{% endif %} rv rv-d{{ forloop.index }}" {{ block.shopify_attributes }}>
+          <span class="tag">{{ b.tag }}</span>
+
+          <div class="tierpix {% if forloop.index == 3 %}five{% endif %}" aria-hidden="true">
+            {% if forloop.index == 1 %}
+              <span class="pimg p-combo2" role="img" aria-label="Starter combo pack"></span>
+            {% elsif forloop.index == 2 %}
+              <span class="pimg p-kitchen" role="img" aria-label="Kitchen cleaner"></span>
+              <span class="pimg p-tap" role="img" aria-label="Tap cleaner"></span>
+              <span class="pimg p-dish" role="img" aria-label="Dishwash gel"></span>
+            {% else %}
+              <span class="pimg p-kitchen" role="img" aria-label="Kitchen cleaner"></span>
+              <span class="pimg p-tap" role="img" aria-label="Tap cleaner"></span>
+              <span class="pimg p-floor" role="img" aria-label="Floor cleaner"></span>
+              <span class="pimg p-toilet" role="img" aria-label="Toilet cleaner"></span>
+              <span class="pimg p-laundry" role="img" aria-label="Laundry detergent"></span>
+            {% endif %}
+          </div>
+
+          <div class="qty">
+            {% if forloop.index == 1 %}2{% elsif forloop.index == 2 %}3{% else %}5{% endif %}
+            <small>Products</small>
+          </div>
+
+          <div class="price">
+            {{ block.settings.price }}
+            {% if block.settings.compare_price != blank %}
+              <s>{{ block.settings.compare_price }}</s>
+            {% endif %}
+          </div>
+
+          <p class="body-s" style="font-size:12px">{{ b.per_product_note }}</p>
+
+          <ul>
+            {% if block.settings.feature_1 != blank %}
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m5 13 4 4L19 7"/>
+                </svg>
+                {{ block.settings.feature_1 }}
+              </li>
+            {% endif %}
+            {% if b.feature_2 != blank %}
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m5 13 4 4L19 7"/>
+                </svg>
+                {{ b.feature_2 }}
+              </li>
+            {% endif %}
+            {% if b.feature_3 != blank %}
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m5 13 4 4L19 7"/>
+                </svg>
+                {{ b.feature_3 }}
+              </li>
+            {% endif %}
+          </ul>
+
+          {%- if b.product_1 != blank and b.product_1.available -%}
+            <form method="post" action="/cart/add" class="purelane-ajax-form">
+              <input type="hidden" name="items[0][id]" value="{{ b.product_1.selected_or_first_available_variant.id }}">
+              <input type="hidden" name="items[0][quantity]" value="1">
+              {% if b.product_2 != blank and b.product_2.available %}
+                <input type="hidden" name="items[1][id]" value="{{ b.product_2.selected_or_first_available_variant.id }}">
+                <input type="hidden" name="items[1][quantity]" value="1">
+              {% endif %}
+              {% if b.product_3 != blank and b.product_3.available %}
+                <input type="hidden" name="items[2][id]" value="{{ b.product_3.selected_or_first_available_variant.id }}">
+                <input type="hidden" name="items[2][quantity]" value="1">
+              {% endif %}
+
+              <button type="submit" class="btn {% if b.is_featured %}btn-primary{% else %}btn-ghost{% endif %}">
+                {{ b.cta_text | default: "Build this box" }}
+                {% if b.is_featured %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h13m-5-6 6 6-6 6"/>
+                  </svg>
+                {% endif %}
+              </button>
+            </form>
+          {%- else -%}
+            <a href="#shop" class="btn {% if b.is_featured %}btn-primary{% else %}btn-ghost{% endif %}">
+              {{ b.cta_text | default: "Build this box" }}
+              {% if b.is_featured %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h13m-5-6 6 6-6 6"/>
+                </svg>
+              {% endif %}
+            </a>
+          {%- endif -%}
+        </article>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
@@ -68,7 +118,7 @@
 {
   "name": "Purelane Bundles",
   "tag": "section",
-  "class": "bundles-section",
+  "class": "purelane-bundles-wrapper",
   "settings": [
     {
       "type": "text",
@@ -86,79 +136,82 @@
       "type": "textarea",
       "id": "lede",
       "label": "Lede Copy",
-      "default": "Select the bundle tier that fits your home size and cleaning frequency."
+      "default": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way."
     }
   ],
   "blocks": [
     {
       "type": "bundle_tier",
       "name": "Bundle Tier",
-      "limit": 5,
       "settings": [
         {
-          "type": "text",
-          "id": "title",
-          "label": "Tier Title",
-          "default": "2 Bottle Starter"
+          "type": "checkbox",
+          "id": "is_featured",
+          "label": "Highlight as Most Popular",
+          "default": false
         },
         {
           "type": "text",
           "id": "tag",
           "label": "Tier Tag",
-          "default": "Starter Tier"
-        },
-        {
-          "type": "checkbox",
-          "id": "is_featured",
-          "label": "Highlight as Featured",
-          "default": false
+          "default": "Starter"
         },
         {
           "type": "text",
           "id": "price",
-          "label": "Price Display",
+          "label": "Price",
           "default": "₹349"
         },
         {
           "type": "text",
           "id": "compare_price",
           "label": "Compare Price",
-          "default": "₹498"
+          "default": "₹598"
         },
         {
           "type": "text",
           "id": "per_product_note",
           "label": "Per Product Note",
-          "default": "Flat ₹174 per bottle"
+          "default": "Flat ₹174 per product"
         },
         {
           "type": "text",
           "id": "feature_1",
           "label": "Feature 1",
-          "default": "Includes 2 Reusable Glass Bottles"
+          "default": "Pick any two products"
         },
         {
           "type": "text",
           "id": "feature_2",
           "label": "Feature 2",
-          "default": "Choice of Any 2 Concentrates"
+          "default": "Free shipping across India"
         },
         {
           "type": "text",
           "id": "feature_3",
           "label": "Feature 3",
-          "default": "Free Shipping Across India"
+          "default": "COD available"
         },
         {
           "type": "text",
           "id": "cta_text",
-          "label": "Button Label",
-          "default": "Get Starter Pack"
+          "label": "Button Text",
+          "default": "Build this box"
         },
         {
           "type": "product",
           "id": "product_1",
-          "label": "Bundle Product 1"
+          "label": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product 3"
         }
       ]
     }
@@ -170,28 +223,41 @@
         {
           "type": "bundle_tier",
           "settings": {
-            "title": "2 Bottle Starter",
+            "tag": "Starter",
             "price": "₹349",
-            "compare_price": "₹498",
-            "is_featured": false
+            "compare_price": "₹598",
+            "per_product_note": "Flat ₹174 per product",
+            "feature_1": "Pick any two products",
+            "feature_2": "Free shipping across India",
+            "feature_3": "COD available",
+            "cta_text": "Build this box"
           }
         },
         {
           "type": "bundle_tier",
           "settings": {
-            "title": "3 Bottle Complete Home",
+            "is_featured": true,
+            "tag": "Most popular",
             "price": "₹499",
-            "compare_price": "₹747",
-            "is_featured": true
+            "compare_price": "₹897",
+            "per_product_note": "Flat ₹166 per product",
+            "feature_1": "Pick any three products",
+            "feature_2": "Covers kitchen and laundry",
+            "feature_3": "Free shipping across India",
+            "cta_text": "Build this box"
           }
         },
         {
           "type": "bundle_tier",
           "settings": {
-            "title": "5 Bottle Total Clean",
+            "tag": "Whole home",
             "price": "₹799",
-            "compare_price": "₹1245",
-            "is_featured": false
+            "compare_price": "₹1,495",
+            "per_product_note": "Flat ₹160 per product",
+            "feature_1": "Pick any five products",
+            "feature_2": "Every room in one order",
+            "feature_3": "Free shipping across India",
+            "cta_text": "Build this box"
           }
         }
       ]

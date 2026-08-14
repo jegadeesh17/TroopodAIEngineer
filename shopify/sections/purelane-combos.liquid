@@ -1,25 +1,39 @@
 {% comment %}
   Section: purelane-combos.liquid
-  Horizontal swipeable combo rail with merchant customizable bundle cards.
+  Best Selling Combos rail matching Purelane prototype
 {% endcomment %}
 
-<section class="combos-section glass wrap" id="combos" data-scene="3">
-  <div class="section-header rv rv-d1">
-    {% if section.settings.kicker != blank %}
-      <span class="kicker">{{ section.settings.kicker }}</span>
-    {% endif %}
-    {% if section.settings.section_heading != blank %}
-      <h2 class="d2">{{ section.settings.section_heading }}</h2>
-    {% endif %}
-    {% if section.settings.lede != blank %}
-      <p class="lede">{{ section.settings.lede }}</p>
-    {% endif %}
-  </div>
+<section class="sec" id="combos" data-scene="3">
+  <div class="wrap">
+    <div class="panel-head rv">
+      <span class="kicker">{{ section.settings.kicker | default: "Pre-built to save you money" }}</span>
+      <h2 class="d2" style="margin-top:12px">{{ section.settings.section_heading | default: "Best selling combos" }}</h2>
+      <div class="rule">
+        <i></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
+          <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
+        </svg>
+        <i></i>
+      </div>
+      <p class="lede" style="margin:14px auto 0">
+        {{ section.settings.subtext | default: "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own." }}
+      </p>
+    </div>
 
-  <div class="combos-rail">
-    {% for block in section.blocks %}
-      {% render 'purelane-combo-card', block: block %}
-    {% endfor %}
+    <div class="comborail rv">
+      {% for block in section.blocks %}
+        {% render 'purelane-combo-card', block: block %}
+      {% endfor %}
+    </div>
+
+    <div class="swipecue" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h13m-5-6 6 6-6 6"/>
+      </svg>
+      Swipe for more combos
+    </div>
+    <p class="railnote">Tapping "Shop bundle" adds these items directly to your cart with instant combo savings.</p>
   </div>
 </section>
 
@@ -27,7 +41,7 @@
 {
   "name": "Purelane Combos",
   "tag": "section",
-  "class": "combos-section",
+  "class": "purelane-combos-wrapper",
   "settings": [
     {
       "type": "text",
@@ -43,52 +57,81 @@
     },
     {
       "type": "textarea",
-      "id": "lede",
-      "label": "Subheadline Copy",
-      "default": "Curated bundles designed for complete home cleaning with maximum savings."
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own."
     }
   ],
   "blocks": [
     {
       "type": "combo_card",
       "name": "Combo Card",
-      "limit": 8,
       "settings": [
+        {
+          "type": "checkbox",
+          "id": "is_featured",
+          "label": "Highlight as Hero Combo",
+          "default": false
+        },
         {
           "type": "text",
           "id": "title",
           "label": "Combo Name",
-          "default": "Kitchen Essentials"
+          "default": "Kitchen essentials"
         },
         {
           "type": "text",
           "id": "flag_text",
           "label": "Flag Badge Text",
-          "default": "Most Popular"
+          "default": "Most popular"
+        },
+        {
+          "type": "text",
+          "id": "savings_text",
+          "label": "Savings Pill Text",
+          "default": "You save ₹398"
         },
         {
           "type": "text",
           "id": "product_count",
-          "label": "Product Count Label",
-          "default": "3 Products"
+          "label": "Product Count",
+          "default": "3 products"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Included Description",
+          "default": "Includes: Foaming Kitchen Cleaner, Dishwash Gel & Tap Cleaner. Everything for a sparkling kitchen, no need to pick separately."
         },
         {
           "type": "text",
           "id": "price",
           "label": "Bundle Price",
-          "default": "₹599"
+          "default": "₹499"
         },
         {
           "type": "text",
           "id": "compare_price",
           "label": "Compare Price",
-          "default": "₹898"
+          "default": "₹897"
         },
         {
           "type": "text",
-          "id": "savings_text",
-          "label": "Savings Badge",
-          "default": "Save ₹299"
+          "id": "benefit_1",
+          "label": "Item 1 Benefit",
+          "default": "Cuts grease instantly"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2",
+          "label": "Item 2 Benefit",
+          "default": "Squeaky clean dishes"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3",
+          "label": "Item 3 Benefit",
+          "default": "Melts hard water stains"
         },
         {
           "type": "product",
@@ -104,30 +147,6 @@
           "type": "product",
           "id": "product_3",
           "label": "Product 3"
-        },
-        {
-          "type": "text",
-          "id": "benefit_1",
-          "label": "Benefit Tag 1",
-          "default": "Grease Cutting"
-        },
-        {
-          "type": "text",
-          "id": "benefit_2",
-          "label": "Benefit Tag 2",
-          "default": "Streak-Free Shine"
-        },
-        {
-          "type": "text",
-          "id": "benefit_3",
-          "label": "Benefit Tag 3",
-          "default": "Skin Safe Formula"
-        },
-        {
-          "type": "checkbox",
-          "id": "is_featured",
-          "label": "Highlight Card (Featured)",
-          "default": true
         }
       ]
     }
@@ -139,21 +158,62 @@
         {
           "type": "combo_card",
           "settings": {
-            "title": "Kitchen Essentials",
-            "flag_text": "Top Rated",
-            "price": "₹599",
-            "compare_price": "₹898",
-            "savings_text": "Save ₹299"
+            "title": "Kitchen essentials",
+            "flag_text": "Most popular",
+            "savings_text": "You save ₹398",
+            "product_count": "3 products",
+            "description": "Includes: Foaming Kitchen Cleaner, Dishwash Gel & Tap Cleaner. Everything for a sparkling kitchen.",
+            "price": "₹499",
+            "compare_price": "₹897",
+            "benefit_1": "Cuts grease instantly",
+            "benefit_2": "Squeaky clean dishes",
+            "benefit_3": "Melts hard water stains"
           }
         },
         {
           "type": "combo_card",
           "settings": {
-            "title": "Whole Home Clean",
-            "flag_text": "Best Value",
-            "price": "₹899",
-            "compare_price": "₹1299",
-            "savings_text": "Save ₹400"
+            "title": "Laundry care bundle",
+            "flag_text": "",
+            "savings_text": "You save ₹448",
+            "product_count": "3 products",
+            "description": "Includes: Laundry Detergent, Fabric Conditioner & Machine Cleaner Powder. Softer, fresher wash.",
+            "price": "₹499",
+            "compare_price": "₹947",
+            "benefit_1": "Removes tough stains",
+            "benefit_2": "Softens every wash",
+            "benefit_3": "Deep-cleans machine"
+          }
+        },
+        {
+          "type": "combo_card",
+          "settings": {
+            "is_featured": true,
+            "title": "Complete home bundle",
+            "flag_text": "Best value",
+            "savings_text": "Biggest saving",
+            "product_count": "5 products",
+            "description": "Includes: Kitchen Cleaner, Laundry Detergent, Floor Cleaner, Toilet Cleaner & Handwash. Our biggest saving box.",
+            "price": "₹799",
+            "compare_price": "₹1,495",
+            "benefit_1": "Cuts grease instantly",
+            "benefit_2": "Kills 99.9% germs",
+            "benefit_3": "Gentle hydration"
+          }
+        },
+        {
+          "type": "combo_card",
+          "settings": {
+            "title": "Bathroom deep clean",
+            "flag_text": "",
+            "savings_text": "You save ₹398",
+            "product_count": "3 products",
+            "description": "Includes: Toilet Cleaner, Tap Cleaner & Magic Eraser. A complete bathroom refresh in one box.",
+            "price": "₹499",
+            "compare_price": "₹897",
+            "benefit_1": "Kills 99.9% germs",
+            "benefit_2": "Melts hard water stains",
+            "benefit_3": "Scrubs away soap scum"
           }
         }
       ]
