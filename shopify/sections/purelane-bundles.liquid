@@ -1,0 +1,201 @@
+{% comment %}
+  Section: purelane-bundles.liquid
+  3-tier bundle pricing cards with feature list and custom AJAX cart submission.
+{% endcomment %}
+
+<section class="bundles-section glass wrap" id="bundles" data-scene="4">
+  <div class="section-header rv rv-d1">
+    {% if section.settings.kicker != blank %}
+      <span class="kicker">{{ section.settings.kicker }}</span>
+    {% endif %}
+    {% if section.settings.section_heading != blank %}
+      <h2 class="d2">{{ section.settings.section_heading }}</h2>
+    {% endif %}
+    {% if section.settings.lede != blank %}
+      <p class="lede">{{ section.settings.lede }}</p>
+    {% endif %}
+  </div>
+
+  <div class="bundles-grid">
+    {% for block in section.blocks %}
+      <div class="bundle-card {% if block.settings.is_featured %}glass{% else %}glass-2{% endif %} rv rv-d{{ forloop.index }}" {{ block.shopify_attributes }}>
+        {% if block.settings.tag != blank %}
+          <span class="bundle-tag">{{ block.settings.tag }}</span>
+        {% endif %}
+
+        <div class="bundle-header">
+          <h3 class="d3">{{ block.settings.title }}</h3>
+          <span class="per-note">{{ block.settings.per_product_note }}</span>
+        </div>
+
+        <div class="bundle-price-row">
+          <span class="price d2">{{ block.settings.price }}</span>
+          {% if block.settings.compare_price != blank %}
+            <span class="compare-price">{{ block.settings.compare_price }}</span>
+          {% endif %}
+        </div>
+
+        <ul class="bundle-features">
+          {% if block.settings.feature_1 != blank %}
+            <li><span class="check">✓</span> {{ block.settings.feature_1 }}</li>
+          {% endif %}
+          {% if block.settings.feature_2 != blank %}
+            <li><span class="check">✓</span> {{ block.settings.feature_2 }}</li>
+          {% endif %}
+          {% if block.settings.feature_3 != blank %}
+            <li><span class="check">✓</span> {{ block.settings.feature_3 }}</li>
+          {% endif %}
+        </ul>
+
+        <div class="bundle-cta">
+          {% assign items_json = '' %}
+          {% if block.settings.product_1 != blank %}
+            {% assign items_json = '{"id":' | append: block.settings.product_1.selected_or_first_available_variant.id | append: ',"quantity":1}' %}
+          {% endif %}
+
+          <form method="post" action="/cart/add" class="purelane-ajax-form" data-items="[{{ items_json }}]">
+            <button type="submit" class="btn {% if block.settings.is_featured %}btn-primary{% else %}btn-ghost{% endif %} full-width">
+              {{ block.settings.cta_text | default: "Build Bundle" }}
+            </button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Bundles",
+  "tag": "section",
+  "class": "bundles-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Build your bundle"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "One box. Every room."
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede Copy",
+      "default": "Select the bundle tier that fits your home size and cleaning frequency."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle_tier",
+      "name": "Bundle Tier",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tier Title",
+          "default": "2 Bottle Starter"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tier Tag",
+          "default": "Starter Tier"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_featured",
+          "label": "Highlight as Featured",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price Display",
+          "default": "₹349"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Compare Price",
+          "default": "₹498"
+        },
+        {
+          "type": "text",
+          "id": "per_product_note",
+          "label": "Per Product Note",
+          "default": "Flat ₹174 per bottle"
+        },
+        {
+          "type": "text",
+          "id": "feature_1",
+          "label": "Feature 1",
+          "default": "Includes 2 Reusable Glass Bottles"
+        },
+        {
+          "type": "text",
+          "id": "feature_2",
+          "label": "Feature 2",
+          "default": "Choice of Any 2 Concentrates"
+        },
+        {
+          "type": "text",
+          "id": "feature_3",
+          "label": "Feature 3",
+          "default": "Free Shipping Across India"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button Label",
+          "default": "Get Starter Pack"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Bundle Product 1"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Bundles",
+      "blocks": [
+        {
+          "type": "bundle_tier",
+          "settings": {
+            "title": "2 Bottle Starter",
+            "price": "₹349",
+            "compare_price": "₹498",
+            "is_featured": false
+          }
+        },
+        {
+          "type": "bundle_tier",
+          "settings": {
+            "title": "3 Bottle Complete Home",
+            "price": "₹499",
+            "compare_price": "₹747",
+            "is_featured": true
+          }
+        },
+        {
+          "type": "bundle_tier",
+          "settings": {
+            "title": "5 Bottle Total Clean",
+            "price": "₹799",
+            "compare_price": "₹1245",
+            "is_featured": false
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
