@@ -1,0 +1,179 @@
+{% comment %}
+  Section: purelane-reviews.liquid
+  Auto-marquee customer review rail with aggregate ratings header.
+{% endcomment %}
+
+<section class="reviews-section glass wrap" id="reviews" data-scene="4">
+  <div class="reviews-header rv rv-d1">
+    <div class="aggregate-box">
+      <span class="score d2">{{ section.settings.aggregate_rating }}</span>
+      <div class="stars-col">
+        <span class="stars">★★★★★</span>
+        <span class="count-text">{{ section.settings.review_count_text }}</span>
+      </div>
+    </div>
+    {% if section.settings.social_proof_text != blank %}
+      <p class="social-proof">{{ section.settings.social_proof_text }}</p>
+    {% endif %}
+  </div>
+
+  <div class="reviews-marquee rv rv-d2" aria-label="Customer reviews" style="--duration: {{ section.settings.marquee_speed | default: 30 }}s;">
+    <div class="revtrack">
+      {% for block in section.blocks %}
+        <div class="review-card glass-2" {{ block.shopify_attributes }}>
+          <div class="rev-stars">
+            {% assign star_num = block.settings.stars | default: 5 %}
+            {% for i in (1..star_num) %}★{% endfor %}
+          </div>
+          {% if block.settings.heading != blank %}
+            <h4 class="rev-heading">{{ block.settings.heading }}</h4>
+          {% endif %}
+          <p class="rev-body">{{ block.settings.body }}</p>
+          <div class="rev-author">
+            <span class="author-name">{{ block.settings.reviewer_name }}</span>
+            {% if block.settings.verified %}
+              <span class="verified-badge">✓ Verified Buyer</span>
+            {% endif %}
+            {% if block.settings.product_tag != blank %}
+              <span class="prod-tag">{{ block.settings.product_tag }}</span>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    {% comment %} Duplicate track for seamless infinite marquee loop {% endcomment %}
+    <div class="revtrack" aria-hidden="true">
+      {% for block in section.blocks %}
+        <div class="review-card glass-2">
+          <div class="rev-stars">
+            {% assign star_num = block.settings.stars | default: 5 %}
+            {% for i in (1..star_num) %}★{% endfor %}
+          </div>
+          {% if block.settings.heading != blank %}
+            <h4 class="rev-heading">{{ block.settings.heading }}</h4>
+          {% endif %}
+          <p class="rev-body">{{ block.settings.body }}</p>
+          <div class="rev-author">
+            <span class="author-name">{{ block.settings.reviewer_name }}</span>
+            {% if block.settings.verified %}
+              <span class="verified-badge">✓ Verified Buyer</span>
+            {% endif %}
+            {% if block.settings.product_tag != blank %}
+              <span class="prod-tag">{{ block.settings.product_tag }}</span>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Reviews",
+  "tag": "section",
+  "class": "reviews-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "aggregate_rating",
+      "label": "Aggregate Score",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "review_count_text",
+      "label": "Review Count Subtext",
+      "default": "8,000+ Verified 5-Star Reviews"
+    },
+    {
+      "type": "text",
+      "id": "social_proof_text",
+      "label": "Social Proof Tagline",
+      "default": "Loved by 12 lakh+ Indian homes"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "default": 30,
+      "unit": "s",
+      "label": "Marquee Speed Duration"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review_card",
+      "name": "Review Card",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5,
+          "label": "Star Rating"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Review Title",
+          "default": "Cleaned grease like magic!"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review Body Copy",
+          "default": "Switched to Purelane kitchen cleaner and my stove counters have never been cleaner. Smells natural and zero harsh fumes."
+        },
+        {
+          "type": "text",
+          "id": "reviewer_name",
+          "label": "Reviewer Name",
+          "default": "Priya Sharma"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified Buyer Badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "product_tag",
+          "label": "Product Tagline",
+          "default": "· Kitchen Cleaner Concentrate"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Reviews",
+      "blocks": [
+        {
+          "type": "review_card",
+          "settings": {
+            "reviewer_name": "Ananya R.",
+            "heading": "Obsessed with the smell!",
+            "body": "The lemon eucalyptus dish wash cuts oil instantly and my hands don't dry out."
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "reviewer_name": "Vikram M.",
+            "heading": "Replaced all plastic bottles",
+            "body": "The concentrate glass bottle design is fantastic. High quality refills!"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
