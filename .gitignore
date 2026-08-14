@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+.env
+data/*
+!data/.keep
+models/*
+!models/.keep

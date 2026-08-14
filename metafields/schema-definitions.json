@@ -1,0 +1,37 @@
+[
+  {
+    "namespace": "custom",
+    "key": "rating_score",
+    "name": "Rating Score",
+    "description": "Product average review rating out of 5",
+    "type": "number_decimal"
+  },
+  {
+    "namespace": "custom",
+    "key": "review_count",
+    "name": "Review Count",
+    "description": "Total customer review count",
+    "type": "number_integer"
+  },
+  {
+    "namespace": "custom",
+    "key": "badge_text",
+    "name": "Badge Text",
+    "description": "Pill badge displayed on product card",
+    "type": "single_line_text_field"
+  },
+  {
+    "namespace": "custom",
+    "key": "benefit_tag",
+    "name": "Benefit Tagline",
+    "description": "Short product benefit highlight",
+    "type": "single_line_text_field"
+  },
+  {
+    "namespace": "custom",
+    "key": "combo_products",
+    "name": "Combo Product References",
+    "description": "List of products included in a combo bundle",
+    "type": "list.product_reference"
+  }
+]

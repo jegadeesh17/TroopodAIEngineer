@@ -1,0 +1,69 @@
+{% comment %}
+  Snippet: purelane-combo-card.liquid
+  Accepts:
+  - block: Schema block containing combo settings
+{% endcomment %}
+
+<div class="combo-card glass-2 rv" data-block-id="{{ block.id }}">
+  {% if block.settings.flag_text != blank %}
+    <span class="card-flag">{{ block.settings.flag_text }}</span>
+  {% endif %}
+
+  <div class="combo-header">
+    <h3 class="d3">{{ block.settings.title }}</h3>
+    <span class="product-count">{{ block.settings.product_count }}</span>
+  </div>
+
+  <div class="combo-images">
+    {% if block.settings.product_1 != blank and block.settings.product_1.featured_image %}
+      <img src="{{ block.settings.product_1.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_1.title | escape }}" width="80" height="80">
+    {% endif %}
+    {% if block.settings.product_2 != blank %}
+      <span class="plus-sep">+</span>
+      {% if block.settings.product_2.featured_image %}
+        <img src="{{ block.settings.product_2.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_2.title | escape }}" width="80" height="80">
+      {% endif %}
+    {% endif %}
+    {% if block.settings.product_3 != blank %}
+      <span class="plus-sep">+</span>
+      {% if block.settings.product_3.featured_image %}
+        <img src="{{ block.settings.product_3.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product_3.title | escape }}" width="80" height="80">
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="combo-benefits">
+    {% if block.settings.benefit_1 != blank %}
+      <span class="benefit-tag">{{ block.settings.benefit_1 }}</span>
+    {% endif %}
+    {% if block.settings.benefit_2 != blank %}
+      <span class="benefit-tag">{{ block.settings.benefit_2 }}</span>
+    {% endif %}
+    {% if block.settings.benefit_3 != blank %}
+      <span class="benefit-tag">{{ block.settings.benefit_3 }}</span>
+    {% endif %}
+  </div>
+
+  <div class="combo-footer">
+    <div class="price-row">
+      <span class="price d3">{{ block.settings.price }}</span>
+      {% if block.settings.compare_price != blank %}
+        <span class="compare-price">{{ block.settings.compare_price }}</span>
+      {% endif %}
+      {% if block.settings.savings_text != blank %}
+        <span class="savings-badge">{{ block.settings.savings_text }}</span>
+      {% endif %}
+    </div>
+
+    {% assign items_json = '' %}
+    {% if block.settings.product_1 != blank %}
+      {% assign items_json = '{"id":' | append: block.settings.product_1.selected_or_first_available_variant.id | append: ',"quantity":1}' %}
+    {% endif %}
+
+    <form method="post" action="/cart/add" class="purelane-ajax-form" data-items="[{{ items_json }}]">
+      <button type="submit" class="btn {% if block.settings.is_featured %}btn-primary{% else %}btn-ghost{% endif %} btn-sm full-width">
+        Add Combo to Cart
+      </button>
+    </form>
+  </div>
+</div>
