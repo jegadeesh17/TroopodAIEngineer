@@ -1,0 +1,223 @@
+{% comment %}
+  Section: purelane-hero.liquid
+  Purelane Hero Section with stage switcher, badge rail, dynamic CTAs, and merchant settings.
+{% endcomment %}
+
+<section class="hero glass" data-scene="1" id="hero-{{ section.id }}">
+  <div class="hero-grid wrap">
+    <div class="hero-copy rv rv-d1">
+      <div class="rule">
+        <span class="rule-line"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rule-icon">
+          <path d="M12 2L15 9L22 9L16.5 13.5L18.5 21L12 16.5L5.5 21L7.5 13.5L2 9L9 9L12 2Z"/>
+        </svg>
+        <span class="rule-line"></span>
+      </div>
+
+      <h1 class="d1">
+        {{ section.settings.headline }}
+        <span class="lime">{{ section.settings.headline_accent }}</span>
+      </h1>
+
+      <p class="lede">{{ section.settings.subtext }}</p>
+
+      <div class="hero-cta">
+        {% if section.settings.cta_primary_text != blank %}
+          <a href="{{ section.settings.cta_primary_url | default: '#shop' }}" class="btn btn-primary">
+            {{ section.settings.cta_primary_text }}
+          </a>
+        {% endif %}
+        {% if section.settings.cta_secondary_text != blank %}
+          <a href="{{ section.section.settings.cta_secondary_url | default: '#combos' }}" class="btn btn-ghost">
+            {{ section.settings.cta_secondary_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="hero-stage rv rv-d2">
+      <div class="stage-slides">
+        {% for block in section.blocks %}
+          <div class="hslide {% if forloop.first %}active{% endif %}" data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            {% if block.settings.product != blank and block.settings.product.featured_image %}
+              <img src="{{ block.settings.product.featured_image | image_url: width: 800 }}" alt="{{ block.settings.label | escape }}" loading="eager" width="400" height="400">
+            {% else %}
+              <div class="stage-fallback">
+                <svg viewBox="0 0 100 120" width="200" height="240" fill="none">
+                  <path d="M30 20 H70 V40 H30 Z" fill="#6b55b8"/>
+                  <path d="M20 40 H80 V110 H20 Z" fill="#4b3a8f"/>
+                  <circle cx="50" cy="75" r="15" fill="#f0a03c"/>
+                </svg>
+              </div>
+            {% endif %}
+
+            <div class="slide-meta glass-2">
+              <span class="slide-label d4">{{ block.settings.label }}</span>
+              <div class="slide-prices">
+                <span class="slide-price d3">{{ block.settings.price }}</span>
+                {% if block.settings.compare_price != blank %}
+                  <span class="slide-compare">{{ block.settings.compare_price }}</span>
+                {% endif %}
+                {% if block.settings.savings_tag != blank %}
+                  <span class="slide-savings">{{ block.settings.savings_tag }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div id="hdots" class="stage-dots">
+        {% for block in section.blocks %}
+          <button type="button" aria-label="Go to slide {{ forloop.index }}" class="{% if forloop.first %}active{% endif %}"></button>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="badges">
+    {% if section.settings.badge_1_text != blank %}
+      <div class="badge">
+        <div class="bi">🌱</div>
+        <span>{{ section.settings.badge_1_text }}</span>
+      </div>
+    {% endif %}
+    {% if section.settings.badge_2_text != blank %}
+      <div class="badge">
+        <div class="bi">🛡️</div>
+        <span>{{ section.settings.badge_2_text }}</span>
+      </div>
+    {% endif %}
+    {% if section.settings.badge_3_text != blank %}
+      <div class="badge">
+        <div class="bi">🚫</div>
+        <span>{{ section.settings.badge_3_text }}</span>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Hero",
+  "tag": "section",
+  "class": "hero-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline Main",
+      "default": "Clean That"
+    },
+    {
+      "type": "text",
+      "id": "headline_accent",
+      "label": "Headline Accent Word",
+      "default": "Lasts"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Plant-based homecare concentrates designed to cut plastic waste and clean homes naturally across India."
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_text",
+      "label": "Primary Button Text",
+      "default": "Shop Best Sellers"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary Button URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_text",
+      "label": "Secondary Button Text",
+      "default": "Explore Combos"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secondary Button URL"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_text",
+      "label": "Badge 1 Text",
+      "default": "100% Plant Based"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_text",
+      "label": "Badge 2 Text",
+      "default": "Non-Toxic Shield"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_text",
+      "label": "Badge 3 Text",
+      "default": "Zero Harsh Chemicals"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hero_slide",
+      "name": "Hero Product Slide",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Slide Label",
+          "default": "Any 2 Products"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price Display",
+          "default": "₹349"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Compare Price",
+          "default": "₹598"
+        },
+        {
+          "type": "text",
+          "id": "savings_tag",
+          "label": "Savings Tag",
+          "default": "Save ₹249"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Hero",
+      "blocks": [
+        {
+          "type": "hero_slide",
+          "settings": { "label": "Single Cleaner", "price": "₹249" }
+        },
+        {
+          "type": "hero_slide",
+          "settings": { "label": "Duo Pack", "price": "₹349" }
+        },
+        {
+          "type": "hero_slide",
+          "settings": { "label": "Full Home Trio", "price": "₹599" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
