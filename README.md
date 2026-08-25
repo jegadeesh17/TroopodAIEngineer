@@ -18,7 +18,7 @@ This repository contains the complete production implementation converting the `
 | Deliverable Item | Value / Link |
 |---|---|
 | **Live Storefront URL** | [https://purelane-b6xmmy8v.myshopify.com](https://purelane-b6xmmy8v.myshopify.com) |
-| **Theme Preview URL** | [https://purelane-b6xmmy8v.myshopify.com?preview_theme_id=148898709583](https://purelane-b6xmmy8v.myshopify.com?preview_theme_id=148898709583) |
+| **Theme Preview URL** | [https://purelane-b6xmmy8v.myshopify.com?preview_theme_id=149257551951](https://purelane-b6xmmy8v.myshopify.com?preview_theme_id=149257551951) |
 | **Storefront Password** | `yiefra` |
 | **GitHub Repository** | [https://github.com/jegadeesh17/TroopodAIEngineer](https://github.com/jegadeesh17/TroopodAIEngineer) |
 | **Metafields Schema** | [`metafields/schema-definitions.json`](metafields/schema-definitions.json) |

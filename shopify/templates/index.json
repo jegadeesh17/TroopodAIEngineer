@@ -4,7 +4,7 @@
       "type": "purelane-hero",
       "blocks": {
         "hero_slide_1": {
-          "type": "stage_slide",
+          "type": "hero_slide",
           "settings": {
             "label": "Single bottle",
             "price": "₹249",
@@ -13,7 +13,7 @@
           }
         },
         "hero_slide_2": {
-          "type": "stage_slide",
+          "type": "hero_slide",
           "settings": {
             "label": "Duo pack",
             "price": "₹449",
@@ -22,7 +22,7 @@
           }
         },
         "hero_slide_3": {
-          "type": "stage_slide",
+          "type": "hero_slide",
           "settings": {
             "label": "Trio bundle",
             "price": "₹599",

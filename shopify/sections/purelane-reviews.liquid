@@ -19,7 +19,7 @@
   </div>
 
   <div class="revrail rv" aria-label="Customer reviews">
-    <div class="revtrack" style="animation-duration: {{ section.settings.marquee_speed | default: 30 }}s;">
+    <div class="revtrack" style="animation-duration: {{ section.settings.marquee_speed | default: 35 }}s;">
       {%- capture cards_markup -%}
         {% for block in section.blocks %}
           <article class="glass-2 rcard" {{ block.shopify_attributes }}>
@@ -44,8 +44,10 @@
         {% endfor %}
       {%- endcapture -%}
       {{ cards_markup }}
+      {{ cards_markup }}
     </div>
-    <div class="revtrack" aria-hidden="true" style="animation-duration: {{ section.settings.marquee_speed | default: 30 }}s;">
+    <div class="revtrack" aria-hidden="true" style="animation-duration: {{ section.settings.marquee_speed | default: 35 }}s;">
+      {{ cards_markup }}
       {{ cards_markup }}
     </div>
   </div>

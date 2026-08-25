@@ -87,10 +87,19 @@
     <b>★ {{ rating_score }}</b> · {{ review_count }} reviews
   </div>
 
+  {%- assign price_display = product.price | money_without_trailing_zeros | replace: 'Rs.', '₹' | replace: 'Rs', '₹' | replace: '$', '₹' -%}
+  {%- unless price_display contains '₹' -%}
+    {%- assign price_display = '₹' | append: price_display -%}
+  {%- endunless -%}
+
   <div class="pr">
-    <strong>{{ product.price | money }}</strong>
+    <strong>{{ price_display }}</strong>
     {% if product.compare_at_price > product.price %}
-      <s>{{ product.compare_at_price | money }}</s>
+      {%- assign compare_price_display = product.compare_at_price | money_without_trailing_zeros | replace: 'Rs.', '₹' | replace: 'Rs', '₹' | replace: '$', '₹' -%}
+      {%- unless compare_price_display contains '₹' -%}
+        {%- assign compare_price_display = '₹' | append: compare_price_display -%}
+      {%- endunless -%}
+      <s>{{ compare_price_display }}</s>
       {%- assign diff = product.compare_at_price | minus: product.price -%}
       {%- assign pct = diff | times: 100.0 | divided_by: product.compare_at_price | round -%}
       <em>{{ pct }}% off</em>

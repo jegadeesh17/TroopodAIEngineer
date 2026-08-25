@@ -6,44 +6,7 @@
 <section class="hero" id="hero-{{ section.id }}" data-scene="1">
   <div class="hero-grid">
 
-    <!-- DESKTOP BADGE RAIL -->
-    <div class="badges glass-2" aria-label="Product promises">
-      {% if section.settings.badge_1_text != blank %}
-        <div class="badge">
-          <span class="bi">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
-              <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
-            </svg>
-          </span>
-          <span>{{ section.settings.badge_1_text | replace: ' ', '<br>' }}</span>
-        </div>
-      {% endif %}
-      {% if section.settings.badge_2_text != blank %}
-        <div class="badge">
-          <span class="bi">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/>
-              <path d="m9 12 2.2 2.2L15.4 10"/>
-            </svg>
-          </span>
-          <span>{{ section.settings.badge_2_text | replace: ' ', '<br>' }}</span>
-        </div>
-      {% endif %}
-      {% if section.settings.badge_3_text != blank %}
-        <div class="badge">
-          <span class="bi">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="8.4"/>
-              <path d="M6.4 17.6 17.6 6.4"/>
-            </svg>
-          </span>
-          <span>{{ section.settings.badge_3_text | replace: ' ', '<br>' }}</span>
-        </div>
-      {% endif %}
-    </div>
-
-    <!-- HERO COPY -->
+    <!-- HERO COPY (LEFT COLUMN) -->
     <div class="hero-copy">
       <h1 class="d1 rv in">
         {{ section.settings.headline | default: "Clean" }}<br>
@@ -112,44 +75,87 @@
       </div>
     </div>
 
-    <!-- HERO PRODUCT STAGE -->
-    <div class="hero-prod" id="heroProd-{{ section.id }}">
-      <div class="hstage" id="hstage-{{ section.id }}">
-        {% for block in section.blocks %}
-          {% assign sidx = forloop.index %}
-          <div class="hslide hs{{ sidx }} {% if forloop.first %}on{% endif %}" data-n="{{ sidx }}" {{ block.shopify_attributes }}>
-            {% if sidx == 1 %}
-              <span class="hp p-kbtl a d1" role="img" aria-label="{{ block.settings.label | escape }}"></span>
-            {% elsif sidx == 2 %}
-              <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner"></span>
-              <span class="hp p-kbtl b d2" role="img" aria-label="Kitchen cleaner"></span>
-            {% else %}
-              <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner"></span>
-              <span class="hp p-mbtl b d2" role="img" aria-label="Copper & brass cleaner"></span>
-              <span class="hp p-kbtl c d3" role="img" aria-label="Kitchen cleaner"></span>
-            {% endif %}
+    <!-- HERO SHOWCASE (RIGHT COLUMN) -->
+    <div class="hero-showcase" id="heroProd-{{ section.id }}">
+      <div class="hero-glow" aria-hidden="true"></div>
 
-            <div class="glass-2 ptag">
-              <span class="lbl">{{ block.settings.label }}</span>
-              <div class="val">
-                <strong>{{ block.settings.price }}</strong>
-                {% if block.settings.compare_price != blank %}
-                  <s>{{ block.settings.compare_price }}</s>
+      <!-- PRODUCT STAGE -->
+      <div class="hero-prod-stage">
+        <div class="hstage" id="hstage-{{ section.id }}">
+          {% for block in section.blocks %}
+            {% assign sidx = forloop.index %}
+            <div class="hslide hs{{ sidx }} {% if forloop.first %}on{% endif %}" data-n="{{ sidx }}" {{ block.shopify_attributes }}>
+              {% if sidx == 1 %}
+                <span class="hp p-kbtl a d1" role="img" aria-label="{{ block.settings.label | escape }}"></span>
+              {% elsif sidx == 2 %}
+                <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner"></span>
+                <span class="hp p-kbtl b d2" role="img" aria-label="Kitchen cleaner"></span>
+              {% else %}
+                <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner"></span>
+                <span class="hp p-mbtl b d2" role="img" aria-label="Copper & brass cleaner"></span>
+                <span class="hp p-kbtl c d3" role="img" aria-label="Kitchen cleaner"></span>
+              {% endif %}
+
+              <div class="glass-2 ptag">
+                <span class="lbl">{{ block.settings.label }}</span>
+                <div class="val">
+                  <strong>{{ block.settings.price }}</strong>
+                  {% if block.settings.compare_price != blank %}
+                    <s>{{ block.settings.compare_price }}</s>
+                  {% endif %}
+                </div>
+                {% if block.settings.savings_tag != blank %}
+                  <span class="cut">{{ block.settings.savings_tag }}</span>
                 {% endif %}
               </div>
-              {% if block.settings.savings_tag != blank %}
-                <span class="cut">{{ block.settings.savings_tag }}</span>
-              {% endif %}
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
+
+        <div class="hdots" id="hdots-{{ section.id }}">
+          {% for block in section.blocks %}
+            <button type="button" class="{% if forloop.first %}on{% endif %}" aria-label="Slide {{ forloop.index }}"></button>
+          {% endfor %}
+        </div>
       </div>
 
-      <div class="hdots" id="hdots-{{ section.id }}">
-        {% for block in section.blocks %}
-          <button type="button" class="{% if forloop.first %}on{% endif %}" aria-label="Slide {{ forloop.index }}"></button>
-        {% endfor %}
+      <!-- DESKTOP PROMISE BADGES -->
+      <div class="badges glass-2" aria-label="Product promises">
+        {% if section.settings.badge_1_text != blank %}
+          <div class="badge">
+            <span class="bi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
+                <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
+              </svg>
+            </span>
+            <span>{{ section.settings.badge_1_text }}</span>
+          </div>
+        {% endif %}
+        {% if section.settings.badge_2_text != blank %}
+          <div class="badge">
+            <span class="bi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/>
+                <path d="m9 12 2.2 2.2L15.4 10"/>
+              </svg>
+            </span>
+            <span>{{ section.settings.badge_2_text }}</span>
+          </div>
+        {% endif %}
+        {% if section.settings.badge_3_text != blank %}
+          <div class="badge">
+            <span class="bi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="8.4"/>
+                <path d="M6.4 17.6 17.6 6.4"/>
+              </svg>
+            </span>
+            <span>{{ section.settings.badge_3_text }}</span>
+          </div>
+        {% endif %}
       </div>
+
     </div>
 
   </div>
