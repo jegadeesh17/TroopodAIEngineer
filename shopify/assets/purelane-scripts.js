@@ -186,11 +186,30 @@
     });
   }
 
+  function initComboRailNav() {
+    const rail = document.getElementById('combos-rail');
+    const prevBtn = document.querySelector('.rail-prev');
+    const nextBtn = document.querySelector('.rail-next');
+    if (!rail) return;
+
+    if (prevBtn) {
+      prevBtn.onclick = () => {
+        rail.scrollBy({ left: -340, behavior: 'smooth' });
+      };
+    }
+    if (nextBtn) {
+      nextBtn.onclick = () => {
+        rail.scrollBy({ left: 340, behavior: 'smooth' });
+      };
+    }
+  }
+
   function initAll() {
     initReveal();
     initHeroStage();
     initScenesScroll();
     initAjaxCart();
+    initComboRailNav();
   }
 
   if (document.readyState === 'loading') {

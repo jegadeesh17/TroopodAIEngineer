@@ -640,52 +640,90 @@ main { position: relative; z-index: 2; }
 }
 
 /* ---------- BEST SELLING COMBOS ---------- */
+.sec-combos {
+  padding: clamp(54px, 6.5vw, 84px) 0;
+}
+
+.comborail-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .comborail {
   display: flex;
-  gap: 14px;
+  gap: 22px;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   margin: 0 -18px;
-  padding: 4px 18px 14px;
+  padding: 12px 18px 24px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
 .comborail::-webkit-scrollbar { display: none; }
 
+.rail-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(23, 16, 43, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(236, 230, 247, 0.28);
+  color: var(--surface);
+  display: none;
+  place-items: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease);
+  cursor: pointer;
+}
+@media (min-width: 960px) {
+  .rail-btn { display: grid; }
+}
+.rail-btn:hover {
+  background: rgba(75, 58, 143, 0.9);
+  border-color: var(--accent);
+  transform: translateY(-50%) scale(1.08);
+}
+.rail-prev { left: -16px; }
+.rail-next { right: -16px; }
+.rail-btn svg { width: 18px; height: 18px; }
+
 .combo {
-  flex: 0 0 290px;
+  flex: 0 0 316px;
+  width: 316px;
+  max-width: 316px;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   padding: 0;
-  transition: 0.4s var(--ease);
+  border-radius: 22px;
+  background: linear-gradient(158deg, rgba(236, 230, 247, 0.12), rgba(75, 58, 143, 0.18) 55%, rgba(23, 16, 43, 0.26));
+  backdrop-filter: blur(20px) saturate(135%);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
+  border: 1px solid rgba(236, 230, 247, 0.18);
+  box-shadow: 0 20px 54px rgba(18, 12, 34, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
-
-@media (min-width: 1060px) {
-  .comborail {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    overflow-x: visible;
-    margin: 0;
-    padding: 4px 0 14px;
-  }
-  .combo {
-    flex: 1 1 auto;
-    width: 100%;
-  }
-  .swipecue {
-    display: none;
-  }
+.combo:hover {
+  transform: translateY(-6px);
+  border-color: rgba(240, 160, 60, 0.45);
+  box-shadow: 0 28px 70px rgba(18, 12, 34, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
-.combo:hover { transform: translateY(-5px); }
 .combo.hero-combo {
-  border-color: rgba(240, 160, 60, 0.42); box-shadow: 0 26px 74px rgba(18, 12, 34, 0.44), 0 0 0 1px rgba(240, 160, 60, 0.2), var(--g-inset);
+  border-color: rgba(240, 160, 60, 0.48);
+  box-shadow: 0 26px 74px rgba(18, 12, 34, 0.48), 0 0 0 1px rgba(240, 160, 60, 0.25), var(--g-inset);
 }
 .combo .tray {
-  padding: 14px 14px 13px; border-bottom: 1px solid rgba(236, 230, 247, 0.13); position: relative;
-  background: linear-gradient(162deg, rgba(236, 230, 247, 0.13), rgba(75, 58, 143, 0.10));
+  padding: 16px 16px 14px;
+  border-bottom: 1px solid rgba(236, 230, 247, 0.10);
+  position: relative;
+  background: linear-gradient(162deg, rgba(236, 230, 247, 0.08), rgba(75, 58, 143, 0.08));
 }
 .combo .save {
   display: inline-block; font-size: 9.5px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
